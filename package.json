@@ -14,9 +14,10 @@
     "build": "webpack --config webpack.prod.js",
     "lint": "eslint --cache --ext .js,.jsx src/",
     "lintfix": "eslint --cache --ext .js,.jsx src/ --fix",
-    "develop": "cross-env NODE_ENV=development node src/server/server.js",
-    "start": "cross-env NODE_ENV=production node src/server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "develop": "npm run open && cross-env NODE_ENV=development node src/server/server.js",
+    "start": "npm run open && cross-env NODE_ENV=production node src/server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "open": "start http://localhost:3000"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,21 @@
 import { connect } from './networking';
+import { startRendering } from './render';
 
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');
+const startScreen = document.getElementById('start-screen');
 
-Promise.all(connect())
+Promise.all([
+    connect(onGameOver)
+]).then(() => {
+    playButton.onclick = () => {
+        startScreen.style.display = "none";
+        startRendering();
+    }
+})
+
+function onGameOver() {
+    stopRendering();
+    startScreen.style.display = "block";
+  }

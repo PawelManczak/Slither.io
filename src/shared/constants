@@ -1,15 +1,15 @@
 module.exports = Object.freeze({
-  PLAYER_RADIUS: 20,
-  PLAYER_SPEED: 400,
+    PLAYER_RADIUS: 20,
+    PLAYER_SPEED: 400,
 
-  SCORE_PER_FOOD: 1,
+    SCORE_PER_FOOD: 1,
 
-  MAP_SIZE: 5000,
+    MAP_SIZE: 5000,
 
-  MSG_TYPES: {
-    JOIN_GAME: 'join_game',
-    GAME_UPDATE: 'update',
-    INPUT: 'input',
-    GAME_OVER: 'dead',
-  }
+    MSG_TYPES: {
+        JOIN_GAME: 'join_game',
+        GAME_UPDATE: 'update',
+        INPUT: 'input',
+        GAME_OVER: 'dead',
+    }
 });

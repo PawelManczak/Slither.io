@@ -25,10 +25,10 @@ console.log(`Server listening on port ${port}`);
 const io = socketio(server);
 
 // Listen for socket.io connections
-io.on('connection', socket => {
+io.on('connection', (socket) => {
   console.log('Player connected!', socket.id);
 
-  socket.on(Constants.MSG_TYPES.JOIN_GAME, username => {
+  socket.on(Constants.MSG_TYPES.JOIN_GAME, (username) => {
     console.log(`Player ${username} joined`);
   });
 });

@@ -13,7 +13,7 @@ var y = 100;
 
 function render() {
     renderBackground();
-    context.fillStyle= "#6c2c3a";
+    context.fillStyle = "#6c2c3a";
     context.fillRect(x, y, 100, 100);
     x += 0.5;
     y += 0.5;
@@ -29,4 +29,3 @@ export function startRendering() {
     cancelAnimationFrame(animationFrameRequestId);
     animationFrameRequestId = requestAnimationFrame(render);
 }
-  

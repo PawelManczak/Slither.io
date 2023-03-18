@@ -11,13 +11,13 @@ const connectedPromise = new Promise(resolve => {
 });
 
 export const connect = onGameOver => (
-    connectedPromise.then(
+  connectedPromise.then(
     () => { // success
       console.log("Connected!");
       socket.on(Constants.MSG_TYPES.GAME_OVER, onGameOver);
     },
     () => { // failure
-        console.log("Could not connect!");
+      console.log("Could not connect!");
     })
 );
 

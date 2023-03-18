@@ -6,7 +6,7 @@ const socketio = require('socket.io');
 const webpackConfig = require('../../webpack.dev.js');
 
 const app = express();
-
+app.use(express.static('public'))
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(webpackConfig);
   app.use(webpackDevMiddleware(compiler));

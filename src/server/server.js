@@ -2,6 +2,7 @@ const express = require('express');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const socketio = require('socket.io');
+const Constants = require('../shared/constants');
 
 const webpackConfig = require('../../webpack.dev.js');
 
@@ -25,5 +26,9 @@ const io = socketio(server);
 // Listen for socket.io connections
 io.on('connection', socket => {
   console.log('Player connected!', socket.id);
+
+  socket.on(Constants.MSG_TYPES.JOIN_GAME, username => {
+    console.log(`Player ${username} joined`);
+  });
 });
 

@@ -13,7 +13,6 @@ var y = 100;
 
 function render() {
     renderBackground();
-    console.log(x, y);
     context.fillStyle= "#6c2c3a";
     context.fillRect(x, y, 100, 100);
     x += 0.5;

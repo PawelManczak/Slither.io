@@ -1,4 +1,4 @@
-import { connect } from './networking';
+import { connect, play } from './networking';
 import { startRendering } from './render';
 
 const playMenu = document.getElementById('play-menu');
@@ -10,6 +10,7 @@ Promise.all([
     connect(onGameOver)
 ]).then(() => {
     playButton.onclick = () => {
+        play(usernameInput.value);
         startScreen.style.display = "none";
         startRendering();
     }

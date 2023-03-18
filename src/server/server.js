@@ -31,5 +31,9 @@ io.on('connection', (socket) => {
   socket.on(Constants.MSG_TYPES.JOIN_GAME, (username) => {
     console.log(`Player ${username} joined`);
   });
+
+  socket.on(Constants.MSG_TYPES.INPUT, (dir) => {
+    console.log(`Directory update ${dir}`);
+  });
 });
 

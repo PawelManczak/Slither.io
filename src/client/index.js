@@ -1,5 +1,6 @@
 import { connect, play } from './networking';
 import { startRendering } from './render';
+import { startCapturingInput, stopCapturingInput } from './input';
 
 const playMenu = document.getElementById('play-menu');
 const playButton = document.getElementById('play-button');
@@ -13,10 +14,12 @@ Promise.all([
         play(usernameInput.value);
         startScreen.style.display = "none";
         startRendering();
+        startCapturingInput();
     }
 })
 
 function onGameOver() {
+    stopCapturingInput();
     stopRendering();
     startScreen.style.display = "block";
   }

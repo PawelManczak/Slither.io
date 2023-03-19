@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import { processGameUpdate } from './state';
 
 const Constants = require('../shared/constants');
 
@@ -14,6 +15,7 @@ export const connect = onGameOver => (
   connectedPromise.then(
     () => { // success
       console.log("Connected!");
+      socket.on(Constants.MSG_TYPES.GAME_UPDATE, processGameUpdate);
       socket.on(Constants.MSG_TYPES.GAME_OVER, onGameOver);
     },
     () => { // failure

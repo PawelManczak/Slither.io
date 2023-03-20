@@ -2,6 +2,8 @@ const express = require('express');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const socketio = require('socket.io');
+const Constants = require('../shared/constants');
+const Game = require('./game');
 
 const webpackConfig = require('../../webpack.dev.js');
 
@@ -23,7 +25,27 @@ console.log(`Server listening on port ${port}`);
 const io = socketio(server);
 
 // Listen for socket.io connections
-io.on('connection', socket => {
+io.on('connection', (socket) => {
   console.log('Player connected!', socket.id);
+
+  socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
+  socket.on(Constants.MSG_TYPES.INPUT, handleInput);
+  socket.on('disconnect', onDisconnect);
 });
 
+// Setup the Game
+const game = new Game();
+
+function joinGame(username) {
+  console.log(`Player ${username} joined`);
+  game.addPlayer(this, username);
+}
+
+function handleInput(dir) {
+  console.log(`Directory update ${dir * 180/Math.PI}`);
+  game.handleInput(this, dir);
+}
+
+function onDisconnect() {
+  game.removePlayer(this);
+}

@@ -1,84 +1,105 @@
 <!doctype html>
 <html>
-    <head>
-        <title>Slitherio</title>
-        <script defer="defer" src="game.6f8a99f616e03a4fe392.js"></script>
-        <style>
-            body {
-                background-color: rgb(68, 90, 97);
-                }
-            h1 {
-              color: #4CAF50;
-              text-align: center;
-              font-family: verdana;
-              font-size: 200%;
-            }
-            h2 {
-              color: #4CAF50;
-              text-align: center;
-              font-family: verdana;
-              font-size: 150%;
-            }
-            #text{
-                position:absolute; left:50%; top:10%; transform: translate(-50%, -50%);
-                
-            }
-            #sourceCode{
-                width: 180px;
-                height: 100px;
-                
-            }
-            #icon
-            {
-                position:absolute; left:50%; top:90%; transform: translate(-50%, -50%);
-            }
-            input {
+
+<head>
+    <title>Slitherio</title>
+    <style>
+        body {
+            background-color: rgb(68, 90, 97);
+        }
+
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+            font-family: verdana;
+            font-size: 200%;
+        }
+
+        h2 {
+            color: #4CAF50;
+            text-align: center;
+            font-family: verdana;
+            font-size: 150%;
+        }
+
+        #text {
+            position: absolute;
+            left: 50%;
+            top: 10%;
+            transform: translate(-50%, -50%);
+
+        }
+
+        #sourceCode {
+            width: 180px;
+            height: 100px;
+
+        }
+
+        #icon {
+            position: absolute;
+            left: 50%;
+            top: 90%;
+            transform: translate(-50%, -50%);
+        }
+
+        input {
             outline: 0;
             border-width: 0 0 2px;
-            border-color:  rgb(46, 54, 57);;
+            border-color: rgb(46, 54, 57);
+            ;
             background-color: rgb(68, 90, 97);
             height: 30px;
             width: 200px;
             font-size: 150%;
             color: rgb(46, 54, 57);
-            }
-            input:focus {
-            border-color: #4CAF50;
-            }
-            #play-menu{
-                position:absolute; left:50%; top:40%; transform: translate(-50%, -50%);
-            }
-            .button
-            {
-                display: inline-block;
-                padding: 15px 25px;
-                font-size: 24px;
-                cursor: pointer;
-                text-decoration: none;
-                outline: none;
-                color: #fff;
-                background-color: #4CAF50;
-                border: none;
-                border-radius: 15px;
-                box-shadow: 0 9px #999;
-            }
+        }
 
-            .button:hover {background-color: #3e8e41;}
-            .button:active {
+        input:focus {
+            border-color: #4CAF50;
+        }
+
+        #play-menu {
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            transform: translate(-50%, -50%);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 25px;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 9px #999;
+        }
+
+        .button:hover {
+            background-color: #3e8e41;
+        }
+
+        .button:active {
             background-color: #3e8e41;
             box-shadow: 0 5px #666;
             transform: translateY(4px);
-            }
-        </style>
-    </head>
-    <body>
-        <canvas id="game-canvas"> </canvas>
-        <script async src="/game.bundle.js"></script>
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="game-canvas"> </canvas>
+    <div id="start-screen">
         <div id="text">
             <h1>Welcome to our slither.io game!</h1>
         </div>
         <div id="play-menu" class="hidden" align="center">
-            <input id="username-input" placeholder="Username"/> 
+            <input id="username-input" placeholder="Username" />
             <button id="play-button" class="button">PLAY</button>
         </div>
         <div id="icon" align="center">
@@ -87,5 +108,7 @@
                 <img id="sourceCode" src="\sourceCode.png">
             </a>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

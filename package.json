@@ -7,6 +7,7 @@
     "babel-loader": "^9.1.2",
     "cross-env": "^7.0.3",
     "express": "^4.18.2",
+    "nodemon": "^2.0.21",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
     "webpack": "^5.76.1"
@@ -16,7 +17,7 @@
     "build": "webpack --config webpack.prod.js",
     "lint": "eslint --cache --ext .js,.jsx src/",
     "lintfix": "eslint --cache --ext .js,.jsx src/ --fix",
-    "develop": "npm run open && cross-env NODE_ENV=development node src/server/server.js",
+    "develop": "npm run open && cross-env NODE_ENV=development nodemon --watch src/server/ --watch src/shared/ src/server/server.js",
     "start": "npm run open && cross-env NODE_ENV=production node src/server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "open": "start http://localhost:3000"

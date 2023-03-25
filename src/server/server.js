@@ -37,15 +37,17 @@ io.on('connection', (socket) => {
 const game = new Game();
 
 function joinGame(username) {
-  console.log(`Player ${username} joined`);
+  const socketID = this.id;
+  console.log(`Player ${username} (${socketID}) joined`);
   game.addPlayer(this, username);
 }
 
 function handleInput(dir) {
-  console.log(`Directory update ${dir * 180/Math.PI}`);
   game.handleInput(this, dir);
 }
 
 function onDisconnect() {
+    const socketID = this.id;
+    console.log(`Player (${socketID}) disconnected`);
   game.removePlayer(this);
 }

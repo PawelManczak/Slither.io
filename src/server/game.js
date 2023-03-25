@@ -41,16 +41,19 @@ class Game {
 
         // Send updated state
         for (const [socketID, socket] of Object.entries(this.sockets)) {
-            const update = this.createUpdate(this.players[socketID]);
+            const update = this.createUpdate(socketID);
             socket.emit(Constants.MSG_TYPES.GAME_UPDATE, update);
         }
     }
 
-    createUpdate(player) {
+    createUpdate(playerSocketID) {
         // TODO: update only nearby players
         return {
             time: Date.now(),
-            players: Object.values(this.players).map(p => p.serialize())
+            self: this.players[playerSocketID].serialize(),
+            players: Object.values(this.players)
+                .filter(p => p.socketID != playerSocketID)
+                .map(p => p.serialize())
         };
     }
 }

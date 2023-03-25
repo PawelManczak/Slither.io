@@ -17,11 +17,12 @@ function render() {
     renderBackground();
     const state = getCurrentState()
     if (state) {
-        const {time, players} = state;
+        const {time, self, players} = state;
+        context.fillStyle = "#1c3c0a";
+        context.fillRect(self.x, self.y, 50, 50);
         players.forEach(p => {
             context.fillStyle = "#3c6cfa";
             context.fillRect(p.x, p.y, 50, 50);
-            console.log(p.x, p.y)
         }
         );
     } 

@@ -16,10 +16,35 @@ function onTouchInput(e) {
   handleInput(touch.clientX, touch.clientY);
 }
 
+function onKeyDown(e) {
+  switch (e.key) {
+    case "ArrowRight":
+      headingAngle = 0;
+      break;
+    case "ArrowUp":
+      headingAngle = -Math.PI / 2;
+      break;
+    case "ArrowLeft":
+      headingAngle = -Math.PI;
+      break;
+    case "ArrowDown":
+      headingAngle = Math.PI / 2;
+      break;
+  }
+}
+
 function handleInput(x, y) {
   headingAngle = Math.atan2(y - Constants.PLAYER_RADIUS / 2 - window.innerHeight / 2, x - Constants.PLAYER_RADIUS / 2 - window.innerWidth / 2);
   currentAngle = getSteeringDirection();
   updateDirection(currentAngle);
+}
+
+function getAngleBetweenMinusPiAndPi(angle) {
+  if (angle > Math.PI)
+    angle -= 2 * Math.PI;
+  else if (angle < -Math.PI)
+    angle += 2 * Math.PI;
+  return angle;
 }
 
 function getSteeringDirection() {
@@ -30,14 +55,7 @@ function getSteeringDirection() {
     const maxDeltaAngle = Constants.PLAYER_ROTATION * deltaTimeSeconds
     const previousAngle = self.dir;
     const changeInAngle = headingAngle - previousAngle;
-
-    // https://stackoverflow.com/questions/1878907/how-can-i-find-the-smallest-difference-between-two-angles-around-a-point
-    let smallestChange = changeInAngle;
-    if (changeInAngle > Math.PI)
-      smallestChange -= 2 * Math.PI;
-    else if (changeInAngle < -Math.PI)
-      smallestChange += 2 * Math.PI;
-
+    const smallestChange = getAngleBetweenMinusPiAndPi(changeInAngle);
     const steeringAngle = previousAngle + Math.sign(smallestChange) * Math.min(Math.abs(smallestChange), maxDeltaAngle);
     return steeringAngle;
   }
@@ -56,6 +74,7 @@ function steerDirection() {
 export function startCapturingInput() {
   window.addEventListener('mousemove', onMouseInput);
   window.addEventListener('touchmove', onTouchInput);
+  window.addEventListener('keydown', onKeyDown);
   cancelAnimationFrame(animationFrameRequestId);
   animationFrameRequestId = requestAnimationFrame(steerDirection);
 }
@@ -63,5 +82,6 @@ export function startCapturingInput() {
 export function stopCapturingInput() {
   window.removeEventListener('mousemove', onMouseInput);
   window.removeEventListener('touchmove', onTouchInput);
+  window.removeEventListener('keydown', onKeyDown);
   cancelAnimationFrame(animationFrameRequestId);
 }

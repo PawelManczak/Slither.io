@@ -23,10 +23,14 @@ $ npm start
 
 
 ### TODO
-- steering / @luluu9
-- eating
+- players appearance / @luluu9
+- eating 
 - collisions
 - interpolating
 - leaderboard
 - improving players state update
 - returning from death (play again)
+
+
+### Found bugs
+- when doing a full circle with the mouse around the player wrong direction is chosen

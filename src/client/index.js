@@ -22,4 +22,4 @@ function onGameOver() {
     stopCapturingInput();
     stopRendering();
     startScreen.style.display = "block";
-  }
+}

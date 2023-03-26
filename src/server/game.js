@@ -52,8 +52,8 @@ class Game {
       time: Date.now(),
       self: this.players[playerSocketID].serialize(),
       others: Object.values(this.players)
-          .filter((p) => p.socketID != playerSocketID)
-          .map((p) => p.serialize()),
+        .filter((p) => p.socketID != playerSocketID)
+        .map((p) => p.serialize()),
     };
   }
 }

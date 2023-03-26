@@ -1,7 +1,7 @@
 module.exports = Object.freeze({
-  PLAYER_RADIUS: 50, // px size of player 
-  PLAYER_SPEED: 200, // px position change per second 
-  PLAYER_ROTATION: 2*Math.PI, // max. angle in radians change per second 
+  PLAYER_RADIUS: 50, // px size of player
+  PLAYER_SPEED: 200, // px position change per second
+  PLAYER_ROTATION: 2 * Math.PI, // max. angle in radians change per second
 
   SCORE_PER_FOOD: 1,
 

@@ -1,4 +1,4 @@
-const {MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS} = require('../shared/constants');
+const { MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS } = require('../shared/constants');
 
 class Player {
   constructor(socketID, username, x, y) {

@@ -62,7 +62,7 @@ function renderPlayer(self, player) {
     context.fillRect(0, 0, PLAYER_RADIUS, PLAYER_RADIUS);
 
     // draw direction line
-    const center = PLAYER_RADIUS/2; 
+    const center = PLAYER_RADIUS / 2;
     const lineLength = 50;
     context.beginPath();
     context.moveTo(center, center);

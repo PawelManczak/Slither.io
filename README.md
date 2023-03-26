@@ -18,5 +18,15 @@ $ npm start
 
 
 ### Sources
-https://github.com/bibhuticoder/snake.io - offline game
-https://victorzhou.com/blog/build-an-io-game-part-1 
+- https://github.com/bibhuticoder/snake.io - offline game
+- https://victorzhou.com/blog/build-an-io-game-part-1 
+
+
+### TODO
+- steering / @luluu9
+- eating
+- collisions
+- interpolating
+- leaderboard
+- improving players state update
+- returning from death (play again)

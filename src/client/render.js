@@ -17,10 +17,10 @@ let animationFrameRequestId;
 function render() {
     const state = getCurrentState()
     if (state) {
-        const { time, self, players } = state;
+        const { time, self, others } = state;
         renderBackground(self.x, self.y);
         renderPlayer(self, self);
-        players.forEach(p => renderPlayer(self, p));
+        others.forEach(p => renderPlayer(self, p));
     }
     animationFrameRequestId = requestAnimationFrame(render);
 }
@@ -52,17 +52,21 @@ function renderPlayer(self, player) {
     const canvasX = canvas.width / 2 + x - self.x;
     const canvasY = canvas.height / 2 + y - self.y;
 
+    // save state to restore changes (e.g. context translation) later  
     context.save();
 
-    context.translate(canvasX, canvasY);
+    // draw player
+    context.translate(canvasX, canvasY); // make context relative to player
     context.fillStyle = self == player ? PLAYER_COLOR : OTHERS_COLOR;
     context.fillRect(0, 0, PLAYER_RADIUS, PLAYER_RADIUS);
 
+    // draw username
     context.font = "20px Trebuchet MS";
     context.textAlign = "center";
     context.textBaseline = "top";
     context.fillText(username, PLAYER_RADIUS/2, -PLAYER_RADIUS/2);
 
+    // restore changes
     context.restore();
 }
 

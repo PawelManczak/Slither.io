@@ -1,6 +1,6 @@
 module.exports = Object.freeze({
-    PLAYER_RADIUS: 20,
-    PLAYER_SPEED: 50,
+    PLAYER_RADIUS: 50,
+    PLAYER_SPEED: 200,
 
     SCORE_PER_FOOD: 1,
 

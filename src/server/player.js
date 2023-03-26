@@ -1,4 +1,4 @@
-const Constants = require('../shared/constants');
+const { MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS } = require('../shared/constants');
 
 class Player {
     constructor(socketID, username, x, y) {
@@ -14,8 +14,12 @@ class Player {
     }
 
     update(delta) {
-        this.x += Constants.PLAYER_SPEED * Math.sin(this.dir) * delta;
-        this.y -= Constants.PLAYER_SPEED * Math.cos(this.dir) * delta;
+        this.x += PLAYER_SPEED * Math.sin(this.dir) * delta;
+        this.y -= PLAYER_SPEED * Math.cos(this.dir) * delta;
+
+        // Clamp position to boundaries
+        this.x = Math.max(0, Math.min(MAP_SIZE - PLAYER_RADIUS, this.x));
+        this.y = Math.max(0, Math.min(MAP_SIZE - PLAYER_RADIUS, this.y));
     }
 
     serialize() {

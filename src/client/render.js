@@ -1,7 +1,7 @@
 import { getCurrentState } from "./state";
 
 const Constants = require('../shared/constants');
-const { MAP_SIZE, PLAYER_COLOR, OTHERS_COLOR } = Constants;
+const { MAP_SIZE, PLAYER_RADIUS, PLAYER_COLOR, OTHERS_COLOR } = Constants;
 
 
 // Get the canvas graphics context
@@ -56,7 +56,7 @@ function renderPlayer(self, player) {
 
     context.translate(canvasX, canvasY);
     context.fillStyle = self == player ? PLAYER_COLOR : OTHERS_COLOR;
-    context.fillRect(0, 0, 50, 50);
+    context.fillRect(0, 0, PLAYER_RADIUS, PLAYER_RADIUS);
 
     context.restore();
 }

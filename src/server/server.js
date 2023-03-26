@@ -8,7 +8,7 @@ const Game = require('./game');
 const webpackConfig = require('../../webpack.dev.js');
 
 const app = express();
-app.use(express.static('public'))
+app.use(express.static('public'));
 if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(webpackConfig);
   app.use(webpackDevMiddleware(compiler));
@@ -47,7 +47,7 @@ function handleInput(dir) {
 }
 
 function onDisconnect() {
-    const socketID = this.id;
-    console.log(`Player (${socketID}) disconnected`);
+  const socketID = this.id;
+  console.log(`Player (${socketID}) disconnected`);
   game.removePlayer(this);
 }

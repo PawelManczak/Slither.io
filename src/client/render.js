@@ -48,7 +48,7 @@ function renderBackground(centerX, centerY) {
 }
 
 function renderPlayer(self, player) {
-    const { x, y, username } = player;
+    const { x, y, dir, username } = player;
     const canvasX = canvas.width / 2 + x - self.x;
     const canvasY = canvas.height / 2 + y - self.y;
 
@@ -59,12 +59,21 @@ function renderPlayer(self, player) {
     context.translate(canvasX, canvasY); // make context relative to player
     context.fillStyle = self == player ? PLAYER_COLOR : OTHERS_COLOR;
     context.fillRect(0, 0, PLAYER_RADIUS, PLAYER_RADIUS);
+    context.fillRect(0, 0, PLAYER_RADIUS, PLAYER_RADIUS);
+
+    // draw direction line
+    const center = PLAYER_RADIUS/2; 
+    const lineLength = 50;
+    context.beginPath();
+    context.moveTo(center, center);
+    context.lineTo(center + lineLength * Math.cos(dir), center + lineLength * Math.sin(dir));
+    context.stroke();
 
     // draw username
     context.font = "20px Trebuchet MS";
     context.textAlign = "center";
     context.textBaseline = "top";
-    context.fillText(username, PLAYER_RADIUS/2, -PLAYER_RADIUS/2);
+    context.fillText(username, PLAYER_RADIUS / 2, -PLAYER_RADIUS / 2);
 
     // restore changes
     context.restore();

@@ -1,5 +1,7 @@
 import { updateDirection } from './networking';
 
+const Constants = require('../shared/constants');
+
 function onMouseInput(e) {
   handleInput(e.clientX, e.clientY);
 }
@@ -10,8 +12,8 @@ function onTouchInput(e) {
 }
 
 function handleInput(x, y) {
-  const dir = Math.atan2(x - window.innerWidth / 2, window.innerHeight / 2 - y);
-  updateDirection(dir);
+  let headingAngle = Math.atan2(y - Constants.PLAYER_RADIUS / 2 - window.innerHeight / 2, x - Constants.PLAYER_RADIUS / 2 - window.innerWidth / 2);
+  updateDirection(headingAngle);
 }
 
 export function startCapturingInput() {

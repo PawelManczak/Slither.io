@@ -58,6 +58,11 @@ function renderPlayer(self, player) {
     context.fillStyle = self == player ? PLAYER_COLOR : OTHERS_COLOR;
     context.fillRect(0, 0, PLAYER_RADIUS, PLAYER_RADIUS);
 
+    context.font = "20px Trebuchet MS";
+    context.textAlign = "center";
+    context.textBaseline = "top";
+    context.fillText(username, PLAYER_RADIUS/2, -PLAYER_RADIUS/2);
+
     context.restore();
 }
 

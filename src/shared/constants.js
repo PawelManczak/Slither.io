@@ -4,7 +4,7 @@ module.exports = Object.freeze({
 
     SCORE_PER_FOOD: 1,
 
-    MAP_SIZE: 100,
+    MAP_SIZE: 1000,
 
     MSG_TYPES: {
         JOIN_GAME: 'join_game',
@@ -13,5 +13,8 @@ module.exports = Object.freeze({
         GAME_OVER: 'dead',
     },
 
-    SERVER_UPDATE_FREQ: 1000 / 60
+    SERVER_UPDATE_FREQ: 1000 / 60,
+
+    PLAYER_COLOR: "#99ff66",
+    OTHERS_COLOR: "#ff3399"
 });

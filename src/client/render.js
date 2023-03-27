@@ -64,7 +64,7 @@ function renderPlayer(self, player) {
     context.save();
 
     // make context relative to player
-    context.translate(canvasX, canvasY); 
+    context.translate(canvasX, canvasY);
 
     // draw player
     const playerColor = (self == player) ? PLAYER_COLOR : OTHERS_COLOR;
@@ -82,7 +82,11 @@ function renderPlayer(self, player) {
     context.font = "20px Trebuchet MS";
     context.textAlign = "center";
     context.textBaseline = "top";
-    context.fillText(username, 0, -PLAYER_DIAMETER);
+    context.lineJoin = "round";
+    context.miterLimit = 2;
+    context.lineWidth = 3;
+    context.strokeText(username, center, -PLAYER_DIAMETER);
+    context.fillText(username, center, -PLAYER_DIAMETER);
 
     // restore changes
     context.restore();
@@ -93,8 +97,8 @@ function drawPlayer(bodyparts, color) {
         (bodypart) => {
             // as canvas is centered to the player, each bodypart
             // should have position relative to the head
-            const x = bodypart.x-bodyparts[0].x;
-            const y = bodypart.y-bodyparts[0].y;
+            const x = bodypart.x - bodyparts[0].x;
+            const y = bodypart.y - bodyparts[0].y;
             drawCircle(x, y, PLAYER_RADIUS, color)
         }
     )

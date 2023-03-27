@@ -23,13 +23,15 @@ $ npm start
 
 
 ### TODO
-- players appearance / @luluu9
-- eating 
-- collisions
+- food / @luluu9
+- collisions with players
 - interpolating
+- scoring
 - leaderboard
 - improving players state update
 - returning from death (play again)
+- unique color for each player
+- snake's eyes
 
 
 ### Found bugs

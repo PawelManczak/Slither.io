@@ -1,3 +1,4 @@
+import tinycolor from "tinycolor2";
 import { getCurrentState } from "./state";
 
 const Constants = require('../shared/constants');
@@ -62,14 +63,15 @@ function renderPlayer(self, player) {
     // save state to restore changes (e.g. context translation) later  
     context.save();
 
+    // make context relative to player
+    context.translate(canvasX, canvasY); 
+
     // draw player
-    context.translate(canvasX, canvasY); // make context relative to player
-    context.fillStyle = self == player ? PLAYER_COLOR : OTHERS_COLOR;
-    context.fillRect(0, 0, PLAYER_RADIUS, PLAYER_RADIUS);
-    context.fillRect(0, 0, PLAYER_RADIUS, PLAYER_RADIUS);
+    const playerColor = (self == player) ? PLAYER_COLOR : OTHERS_COLOR;
+    const center = 0;
+    drawCircle(center, center, PLAYER_RADIUS/2, playerColor)
 
     // draw direction line
-    const center = PLAYER_RADIUS / 2;
     const lineLength = 50;
     context.beginPath();
     context.moveTo(center, center);
@@ -80,10 +82,20 @@ function renderPlayer(self, player) {
     context.font = "20px Trebuchet MS";
     context.textAlign = "center";
     context.textBaseline = "top";
-    context.fillText(username, PLAYER_RADIUS / 2, -PLAYER_RADIUS / 2);
+    context.fillText(username, 0, -PLAYER_RADIUS);
 
     // restore changes
     context.restore();
+}
+
+function drawCircle(centerX, centerY, radius, color) {
+    context.beginPath();
+    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+    context.fillStyle = color;
+    context.fill();
+    context.lineWidth = 3;
+    context.strokeStyle = tinycolor(color).darken(50);
+    context.stroke();
 }
 
 export function startRendering() {

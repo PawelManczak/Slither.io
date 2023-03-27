@@ -34,7 +34,7 @@ function onKeyDown(e) {
 }
 
 function handleInput(x, y) {
-  headingAngle = Math.atan2(y - Constants.PLAYER_RADIUS / 2 - window.innerHeight / 2, x - Constants.PLAYER_RADIUS / 2 - window.innerWidth / 2);
+  headingAngle = Math.atan2(y - window.innerHeight / 2, x - window.innerWidth / 2);
   currentAngle = getSteeringDirection();
   updateDirection(currentAngle);
 }

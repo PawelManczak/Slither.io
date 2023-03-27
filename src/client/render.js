@@ -56,7 +56,7 @@ function renderBackground(centerX, centerY) {
 }
 
 function renderPlayer(self, player) {
-    const { x, y, dir, username } = player;
+    const { x, y, dir, username, bodyparts } = player;
     const canvasX = canvas.width / 2 + x - self.x;
     const canvasY = canvas.height / 2 + y - self.y;
 
@@ -69,7 +69,7 @@ function renderPlayer(self, player) {
     // draw player
     const playerColor = (self == player) ? PLAYER_COLOR : OTHERS_COLOR;
     const center = 0;
-    drawCircle(center, center, PLAYER_RADIUS/2, playerColor)
+    drawPlayer(bodyparts, playerColor, canvasX, canvasY);
 
     // draw direction line
     const lineLength = 50;
@@ -86,6 +86,18 @@ function renderPlayer(self, player) {
 
     // restore changes
     context.restore();
+}
+
+function drawPlayer(bodyparts, color) {
+    bodyparts.forEach(
+        (bodypart) => {
+            // as canvas is centered to the player, each bodypart
+            // should have position relative to the head
+            const x = bodypart.x-bodyparts[0].x;
+            const y = bodypart.y-bodyparts[0].y;
+            drawCircle(x, y, PLAYER_RADIUS/2, color)
+        }
+    )
 }
 
 function drawCircle(centerX, centerY, radius, color) {

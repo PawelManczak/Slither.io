@@ -7,6 +7,8 @@ class Player {
     this.dir = 0;
     this.username = username;
     this.socketID = socketID;
+    this.length = 50;
+    this.bodyparts = Array(this.length).fill({ x: x, y: y });
   }
 
   setDirection(dir) {
@@ -20,6 +22,15 @@ class Player {
     // Clamp position to boundaries
     this.x = Math.max(0, Math.min(MAP_SIZE - PLAYER_RADIUS, this.x));
     this.y = Math.max(0, Math.min(MAP_SIZE - PLAYER_RADIUS, this.y));
+
+    this.updateBodyparts();
+  }
+
+  updateBodyparts() {
+    // remove last element
+    this.bodyparts.pop();
+    // insert new element on start
+    this.bodyparts.unshift({ x: this.x, y: this.y });
   }
 
   serialize() {
@@ -28,8 +39,19 @@ class Player {
       y: this.y,
       dir: this.dir,
       username: this.username,
+      bodyparts: getEveryNth(this.bodyparts, 10), // send only part of bodyparts to render
     };
   }
+}
+
+function getEveryNth(arr, nth) {
+  const result = [];
+
+  for (let index = 0; index < arr.length; index += nth) {
+    result.push(arr[index]);
+  }
+
+  return result;
 }
 
 module.exports = Player;

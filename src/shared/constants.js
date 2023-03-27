@@ -1,5 +1,6 @@
 module.exports = Object.freeze({
-  PLAYER_RADIUS: 50, // px size of player
+  PLAYER_DIAMETER: 50, // px size of player
+  PLAYER_RADIUS: 25,
   PLAYER_SPEED: 200, // px position change per second
   PLAYER_ROTATION: 2 * Math.PI, // max. angle in radians change per second
 

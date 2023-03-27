@@ -20,8 +20,8 @@ class Player {
     this.y += PLAYER_SPEED * Math.sin(this.dir) * delta;
 
     // Clamp position to boundaries
-    this.x = Math.max(PLAYER_RADIUS / 2, Math.min(MAP_SIZE - PLAYER_RADIUS / 2, this.x));
-    this.y = Math.max(PLAYER_RADIUS / 2, Math.min(MAP_SIZE - PLAYER_RADIUS / 2, this.y));
+    this.x = Math.max(PLAYER_RADIUS, Math.min(MAP_SIZE - PLAYER_RADIUS, this.x));
+    this.y = Math.max(PLAYER_RADIUS, Math.min(MAP_SIZE - PLAYER_RADIUS, this.y));
 
     this.updateBodyparts();
   }

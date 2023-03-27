@@ -2,7 +2,7 @@ import tinycolor from "tinycolor2";
 import { getCurrentState } from "./state";
 
 const Constants = require('../shared/constants');
-const { MAP_SIZE, PLAYER_RADIUS, PLAYER_COLOR, OTHERS_COLOR } = Constants;
+const { MAP_SIZE, PLAYER_DIAMETER, PLAYER_RADIUS, PLAYER_COLOR, OTHERS_COLOR } = Constants;
 
 
 // Get the canvas graphics context
@@ -82,7 +82,7 @@ function renderPlayer(self, player) {
     context.font = "20px Trebuchet MS";
     context.textAlign = "center";
     context.textBaseline = "top";
-    context.fillText(username, 0, -PLAYER_RADIUS);
+    context.fillText(username, 0, -PLAYER_DIAMETER);
 
     // restore changes
     context.restore();
@@ -95,7 +95,7 @@ function drawPlayer(bodyparts, color) {
             // should have position relative to the head
             const x = bodypart.x-bodyparts[0].x;
             const y = bodypart.y-bodyparts[0].y;
-            drawCircle(x, y, PLAYER_RADIUS/2, color)
+            drawCircle(x, y, PLAYER_RADIUS, color)
         }
     )
 }

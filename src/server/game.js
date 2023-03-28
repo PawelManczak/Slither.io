@@ -1,4 +1,5 @@
 const Constants = require('../shared/constants');
+const FoodManager = require('./food');
 const Player = require('./player');
 
 class Game {
@@ -6,6 +7,7 @@ class Game {
     this.sockets = {};
     this.players = {};
     this.lastUpdateTime = Date.now();
+    this.foodManager = new FoodManager();
     setInterval(this.update.bind(this), Constants.SERVER_UPDATE_FREQ);
   }
 
@@ -39,6 +41,9 @@ class Game {
       this.players[socketID].update(delta);
     }
 
+    // Update food
+    this.foodManager.update();
+
     // Send updated state
     for (const [socketID, socket] of Object.entries(this.sockets)) {
       const update = this.createUpdate(socketID);
@@ -54,6 +59,7 @@ class Game {
       others: Object.values(this.players)
         .filter((p) => p.socketID != playerSocketID)
         .map((p) => p.serialize()),
+      foodPositions: this.foodManager.serialize(),
     };
   }
 }

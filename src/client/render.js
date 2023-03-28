@@ -2,7 +2,15 @@ import tinycolor from "tinycolor2";
 import { getCurrentState } from "./state";
 
 const Constants = require('../shared/constants');
-const { MAP_SIZE, PLAYER_DIAMETER, PLAYER_RADIUS, PLAYER_COLOR, OTHERS_COLOR } = Constants;
+const {
+    MAP_SIZE,
+    PLAYER_DIAMETER,
+    PLAYER_RADIUS,
+    PLAYER_COLOR,
+    OTHERS_COLOR,
+    FOOD_COLOR,
+    FOOD_SIZE
+} = Constants;
 
 
 // Get the canvas graphics context
@@ -25,8 +33,9 @@ window.addEventListener('resize', setCanvasDimensions);
 function render() {
     const state = getCurrentState()
     if (state) {
-        const { time, self, others } = state;
+        const { time, self, others, foodPositions } = state;
         renderBackground(self.x, self.y);
+        renderFood(self.x, self.y, foodPositions);
         renderPlayer(self, self);
         others.forEach(p => renderPlayer(self, p));
     }
@@ -112,6 +121,16 @@ function drawCircle(centerX, centerY, radius, color) {
     context.lineWidth = 3;
     context.strokeStyle = tinycolor(color).darken(50);
     context.stroke();
+}
+
+function renderFood(playerX, playerY, foodPositions) {
+    const offsetX = playerX - canvas.width / 2
+    const offsetY = playerY - canvas.height / 2
+    foodPositions.forEach(
+        (pos) => {
+            drawCircle(pos.x - offsetX, pos.y - offsetY, FOOD_SIZE, FOOD_COLOR);
+        }
+    )
 }
 
 export function startRendering() {

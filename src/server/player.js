@@ -1,4 +1,4 @@
-const { MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS } = require('../shared/constants');
+const { MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH } = require('../shared/constants');
 
 class Player {
   constructor(socketID, username, x, y) {
@@ -7,7 +7,8 @@ class Player {
     this.dir = 0;
     this.username = username;
     this.socketID = socketID;
-    this.length = 50;
+    this.length = PLAYER_STARTING_LENGTH;
+    this.nthBodypartReported = 5; 
     this.bodyparts = Array(this.length).fill({ x: x, y: y });
   }
 
@@ -26,6 +27,7 @@ class Player {
     this.updateBodyparts();
   }
 
+  // this part has to be time(delta)-dependent in future
   updateBodyparts() {
     // remove last element
     this.bodyparts.pop();
@@ -39,7 +41,7 @@ class Player {
       y: this.y,
       dir: this.dir,
       username: this.username,
-      bodyparts: getEveryNth(this.bodyparts, 10), // send only part of bodyparts to render
+      bodyparts: getEveryNth(this.bodyparts, this.nthBodypartReported), // send only part of bodyparts to render
     };
   }
 }

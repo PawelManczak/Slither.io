@@ -44,11 +44,32 @@ class Game {
     // Update food
     this.foodManager.update();
 
+    // Check collisions
+    this.handleCollisions()
+
     // Send updated state
     for (const [socketID, socket] of Object.entries(this.sockets)) {
       const update = this.createUpdate(socketID);
       socket.emit(Constants.MSG_TYPES.GAME_UPDATE, update);
     }
+  }
+
+  handleCollisions() {
+    let collisions = {} // playerSocketID: food
+    for (const socketID of Object.keys(this.players)) {
+      const player = this.players[socketID];
+      for (const food of this.foodManager.food) {
+        const dist = Math.hypot(player.x-food.x, player.y-food.y)
+        if (dist < Constants.PLAYER_RADIUS) {
+          collisions[socketID] = food
+        }
+      }
+    }
+    for (const [socketID, food] of Object.entries(collisions)) {
+      this.players[socketID].eat();
+      this.foodManager.food = this.foodManager.food.filter(o => o != food);
+    }
+
   }
 
   createUpdate(playerSocketID) {

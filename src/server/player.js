@@ -29,8 +29,10 @@ class Player {
 
   // this part has to be time(delta)-dependent in future
   updateBodyparts() {
-    // remove last element
-    this.bodyparts.pop();
+    // remove last element if player didnt eat 
+    if (this.bodyparts.length >= this.length) { 
+      this.bodyparts.pop();
+    }
     // insert new element on start
     this.bodyparts.unshift({ x: this.x, y: this.y });
   }
@@ -43,6 +45,10 @@ class Player {
       username: this.username,
       bodyparts: getEveryNth(this.bodyparts, this.nthBodypartReported), // send only part of bodyparts to render
     };
+  }
+
+  eat() {
+    this.length += 1;
   }
 }
 

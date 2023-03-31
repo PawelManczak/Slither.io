@@ -1,14 +1,14 @@
+const GameObject = require('./gameobject');
 const { MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH } = require('../shared/constants');
 
-class Player {
+class Player extends GameObject {
   constructor(socketID, username, x, y) {
-    this.x = x;
-    this.y = y;
+    super(x, y)
     this.dir = 0;
     this.username = username;
     this.socketID = socketID;
     this.length = PLAYER_STARTING_LENGTH;
-    this.nthBodypartReported = 5; 
+    this.nthBodypartReported = 5;
     this.bodyparts = Array(this.length).fill({ x: x, y: y });
   }
 
@@ -30,7 +30,7 @@ class Player {
   // this part has to be time(delta)-dependent in future
   updateBodyparts() {
     // remove last element if player didnt eat 
-    if (this.bodyparts.length >= this.length) { 
+    if (this.bodyparts.length >= this.length) {
       this.bodyparts.pop();
     }
     // insert new element on start

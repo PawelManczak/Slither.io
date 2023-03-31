@@ -1,22 +1,22 @@
+const GameObject = require('./gameobject');
 const { MAP_SIZE, FOOD_AMOUNT_PER_SQUARE, FOOD_SQUARE } = require('../shared/constants');
 
 class FoodManager {
     constructor() {
         this.food = [];
-        this.maxFoodAmount = (MAP_SIZE / FOOD_SQUARE)**2 * FOOD_AMOUNT_PER_SQUARE;
+        this.maxFoodAmount = (MAP_SIZE / FOOD_SQUARE) ** 2 * FOOD_AMOUNT_PER_SQUARE;
     }
 
     update(delta) {
         while (this.food.length < this.maxFoodAmount) {
             this.addFood();
         }
-        console.log(this.food.length)
     }
 
     addFood() {
         const x = MAP_SIZE * Math.random();
         const y = MAP_SIZE * Math.random();
-        this.food.push({ x: x, y: y });
+        this.food.push(new GameObject(x, y));
     }
 
     serialize() {

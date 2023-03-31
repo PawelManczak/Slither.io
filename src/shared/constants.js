@@ -10,7 +10,7 @@ module.exports = Object.freeze({
   FOOD_SIZE: 10,
   SCORE_PER_FOOD: 1,
 
-  MAP_SIZE: 10000,
+  MAP_SIZE: 1000,
 
   MSG_TYPES: {
     JOIN_GAME: 'join_game',

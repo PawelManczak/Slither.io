@@ -82,6 +82,7 @@ function renderPlayer(self, player) {
 
     // draw direction line
     const lineLength = 50;
+    context.lineWidth = 3;
     context.beginPath();
     context.moveTo(center, center);
     context.lineTo(center + lineLength * Math.cos(dir), center + lineLength * Math.sin(dir));
@@ -102,15 +103,25 @@ function renderPlayer(self, player) {
 }
 
 function drawPlayer(bodyparts, color) {
+    context.beginPath();
     bodyparts.forEach(
         (bodypart) => {
             // as canvas is centered to the player, each bodypart
             // should have position relative to the head
             const x = bodypart.x - bodyparts[0].x;
             const y = bodypart.y - bodyparts[0].y;
-            drawCircle(x, y, PLAYER_RADIUS, color)
+            context.lineTo(x, y);
         }
     )
+    const outlineWidth = 5;
+    context.lineCap = "round";
+    context.lineJoin = "round";
+    context.lineWidth = PLAYER_DIAMETER + outlineWidth;
+    context.strokeStyle = tinycolor(color).darken(50);
+    context.stroke();
+    context.lineWidth = PLAYER_DIAMETER;
+    context.strokeStyle = color;
+    context.stroke();
 }
 
 function drawCircle(centerX, centerY, radius, color) {

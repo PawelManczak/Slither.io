@@ -1,9 +1,9 @@
-const { MAP_SIZE, FOOD_AMOUNT_PER_SQUARE } = require('../shared/constants');
+const { MAP_SIZE, FOOD_AMOUNT_PER_SQUARE, FOOD_SQUARE } = require('../shared/constants');
 
 class FoodManager {
     constructor() {
         this.food = [];
-        this.maxFoodAmount = MAP_SIZE / 100 * FOOD_AMOUNT_PER_SQUARE;
+        this.maxFoodAmount = (MAP_SIZE / FOOD_SQUARE)**2 * FOOD_AMOUNT_PER_SQUARE;
     }
 
     update(delta) {

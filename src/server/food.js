@@ -19,8 +19,13 @@ class FoodManager {
         this.food.push(new GameObject(x, y));
     }
 
+    removeFood(food) {
+        this.food = this.food.filter((obj) => (obj != food));
+        food.delete();
+    }
+
     serialize() {
-        return this.food;
+        return this.food.map((obj) => ({ x: obj.x, y: obj.y }));
     }
 }
 

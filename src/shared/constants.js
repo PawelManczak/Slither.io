@@ -1,4 +1,4 @@
-module.exports = Object.freeze({
+const constants = {
   PLAYER_DIAMETER: 50,          // px size of player
   PLAYER_RADIUS: 25,
   PLAYER_SPEED: 200,            // px position change per second
@@ -12,6 +12,8 @@ module.exports = Object.freeze({
 
   MAP_SIZE: 1000,
 
+  CELL_SIZE: 100,
+
   MSG_TYPES: {
     JOIN_GAME: 'join_game',
     GAME_UPDATE: 'update',
@@ -24,4 +26,9 @@ module.exports = Object.freeze({
   PLAYER_COLOR: '#99ff66',
   OTHERS_COLOR: '#ff3399',
   FOOD_COLOR: '#00ff00',
-});
+}
+
+constants.GRID_CELLS = Math.floor(constants.MAP_SIZE / constants.CELL_SIZE)
+
+
+module.exports = Object.freeze(constants);

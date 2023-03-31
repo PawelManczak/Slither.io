@@ -67,7 +67,7 @@ class Game {
     }
     for (const [socketID, food] of Object.entries(collisions)) {
       this.players[socketID].eat();
-      this.foodManager.food = this.foodManager.food.filter(o => o != food);
+      this.foodManager.removeFood(food) 
     }
 
   }

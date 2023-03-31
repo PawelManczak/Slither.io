@@ -10,6 +10,7 @@ class FoodManager {
         while (this.food.length < this.maxFoodAmount) {
             this.addFood();
         }
+        console.log(this.food.length)
     }
 
     addFood() {

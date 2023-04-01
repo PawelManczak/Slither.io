@@ -71,7 +71,6 @@ class GameObject {
             }
         }
         closeObjects = closeObjects.filter((object) => (object != this));
-        console.log(closeObjects)
         return closeObjects;
     }
 }

@@ -6,10 +6,11 @@ class GameObject {
   static objects = new Set();
   static objectsGrid = new Array(GRID_CELLS).fill(0).map(() => new Array(GRID_CELLS).fill(0).map(() => new Set()));
 
-  constructor(x, y) {
+  constructor(x, y, radius) {
     this._x = x;
     this._y = y;
     this.deleted = false;
+    this.radius = radius;
     GameObject.objectsGrid[this.cellX][this.cellY].add(this);
     GameObject.objects.add(this);
   }
@@ -26,7 +27,7 @@ class GameObject {
 
   set x(newX) {
     const previousCellX = this.cellX;
-    this._x = clamp(newX, 0, MAP_SIZE);
+    this._x = clamp(newX, this.radius, MAP_SIZE-this.radius);
     if (previousCellX != this.cellX) {
       GameObject.objectsGrid[previousCellX][this.cellY].delete(this);
       GameObject.objectsGrid[this.cellX][this.cellY].add(this);
@@ -39,7 +40,7 @@ class GameObject {
 
   set y(newY) {
     const previousCellY = this.cellY;
-    this._y = clamp(newY, 0, MAP_SIZE);
+    this._y = clamp(newY, this.radius, MAP_SIZE-this.radius);
     if (previousCellY != this.cellY) {
       GameObject.objectsGrid[this.cellX][previousCellY].delete(this);
       GameObject.objectsGrid[this.cellX][this.cellY].add(this);

@@ -4,8 +4,8 @@ const {MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH} = require(
 const {getEveryNth, clamp} = require('../shared/helpers.js');
 
 class BodyPart extends GameObject {
-  constructor(x, y, socketID) {
-    super(x, y);
+  constructor(x, y, radius, socketID) {
+    super(x, y, radius);
     this.socketID = socketID;
   }
 
@@ -16,14 +16,14 @@ class BodyPart extends GameObject {
 
 class Player extends GameObject {
   constructor(socketID, username, x, y) {
-    super(x, y);
+    super(x, y, PLAYER_RADIUS);
     this.dir = 0;
     this.color = tinycolor.random().toHexString();
     this.username = username;
     this.socketID = socketID;
     this.length = PLAYER_STARTING_LENGTH;
     this.nthBodypartReported = 5;
-    this.bodyparts = Array(this.length).fill(new BodyPart(x, y, socketID));
+    this.bodyparts = Array(this.length).fill(new BodyPart(x, y, this.radius, socketID));
   }
 
   delete() {
@@ -42,10 +42,6 @@ class Player extends GameObject {
     this.x += PLAYER_SPEED * Math.cos(this.dir) * delta;
     this.y += PLAYER_SPEED * Math.sin(this.dir) * delta;
 
-    // Clamp position to boundaries
-    this.x = clamp(this.x, PLAYER_RADIUS, MAP_SIZE - PLAYER_RADIUS);
-    this.y = clamp(this.y, PLAYER_RADIUS, MAP_SIZE - PLAYER_RADIUS);
-
     this.updateBodyparts();
   }
 
@@ -57,7 +53,7 @@ class Player extends GameObject {
       bodypart.delete();
     }
     // insert new element on start
-    this.bodyparts.unshift(new BodyPart(this.x, this.y, this.socketID));
+    this.bodyparts.unshift(new BodyPart(this.x, this.y, this.radius, this.socketID));
   }
 
   serialize() {

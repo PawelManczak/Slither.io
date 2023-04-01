@@ -6,17 +6,16 @@ const {getEveryNth, randomInteger} = require('../shared/helpers.js');
 
 class Food extends GameObject {
   constructor(x, y, playerColor) {
-    super(x, y);
+    super(x, y, randomInteger(FOOD_MIN_SIZE, FOOD_MAX_SIZE));
     this.fromPlayer = (playerColor == undefined);
     this.color = playerColor ? playerColor : tinycolor.random().toHexString();
-    this.size = randomInteger(FOOD_MIN_SIZE, FOOD_MAX_SIZE);
   }
 
   serialize() {
     return {
       x: this.x,
       y: this.y,
-      size: this.size,
+      radius: this.radius,
       color: this.color,
     };
   }

@@ -146,7 +146,7 @@ function renderFood(playerX, playerY, food) {
   const offsetY = playerY - canvas.height / 2;
   food.forEach(
       (foodObject) => {
-        drawCircle(foodObject.x - offsetX, foodObject.y - offsetY, foodObject.size, foodObject.color);
+        drawCircle(foodObject.x - offsetX, foodObject.y - offsetY, foodObject.radius, foodObject.color);
       },
   );
 }

@@ -1,3 +1,4 @@
+const tinycolor = require('tinycolor2');
 const GameObject = require('./gameobject');
 const {MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH} = require('../shared/constants');
 const {getEveryNth} = require('../shared/helpers.js');
@@ -17,6 +18,7 @@ class Player extends GameObject {
   constructor(socketID, username, x, y) {
     super(x, y);
     this.dir = 0;
+    this.color = tinycolor.random().toHexString();
     this.username = username;
     this.socketID = socketID;
     this.length = PLAYER_STARTING_LENGTH;
@@ -65,6 +67,7 @@ class Player extends GameObject {
       y: this.y,
       dir: this.dir,
       username: this.username,
+      color: this.color,
       // send only part of bodyparts to render
       bodyparts: reportedBodyParts.map((o) => o.serialize()),
     };

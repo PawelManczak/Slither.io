@@ -82,9 +82,8 @@ function renderPlayer(self, player) {
   context.translate(canvasX, canvasY);
 
   // draw player
-  const playerColor = (self == player) ? PLAYER_COLOR : OTHERS_COLOR;
   const center = 0;
-  drawPlayer(bodyparts, playerColor, canvasX, canvasY);
+  drawPlayer(bodyparts, player.color, canvasX, canvasY);
 
   // draw direction line
   const lineLength = 50;
@@ -101,9 +100,9 @@ function renderPlayer(self, player) {
   context.lineJoin = 'round';
   context.miterLimit = 2;
   context.lineWidth = 3;
-  context.strokeStyle = tinycolor(playerColor).darken(50);
+  context.strokeStyle = tinycolor(player.color).darken(50);
   context.strokeText(username, center, -PLAYER_DIAMETER);
-  context.fillStyle = tinycolor(playerColor);
+  context.fillStyle = tinycolor(player.color);
   context.fillText(username, center, -PLAYER_DIAMETER);
 
   // restore changes

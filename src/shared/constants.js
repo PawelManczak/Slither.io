@@ -24,8 +24,6 @@ const constants = {
 
   SERVER_UPDATE_FREQ: 1000 / 60,
 
-  PLAYER_COLOR: '#99ff66',
-  OTHERS_COLOR: '#ff3399',
   OUTLINE_RATIO: 0.12
 };
 

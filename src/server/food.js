@@ -36,8 +36,8 @@ class FoodManager {
   }
 
   generateFood() {
-    const x = MAP_SIZE * Math.random();
-    const y = MAP_SIZE * Math.random();
+    const x = FOOD_MAX_SIZE/2 + (MAP_SIZE-FOOD_MAX_SIZE) * Math.random();
+    const y = FOOD_MAX_SIZE/2 + (MAP_SIZE-FOOD_MAX_SIZE) * Math.random();
     this.food.push(new Food(x, y));
   }
 

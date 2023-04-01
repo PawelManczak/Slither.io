@@ -5,9 +5,6 @@ import {getCurrentState} from './state';
 const Constants = require('../shared/constants');
 const {
   MAP_SIZE,
-  PLAYER_DIAMETER,
-  PLAYER_COLOR,
-  OTHERS_COLOR,
   OUTLINE_RATIO,
 } = Constants;
 
@@ -71,9 +68,10 @@ function renderBackground(centerX, centerY) {
 }
 
 function renderPlayer(self, player) {
-  const {x, y, dir, username, bodyparts} = player;
+  const {x, y, dir, radius, username, bodyparts} = player;
   const canvasX = canvas.width / 2 + x - self.x;
   const canvasY = canvas.height / 2 + y - self.y;
+  const diameter = radius*2;
 
   // save state to restore changes (e.g. context translation) later
   context.save();
@@ -83,10 +81,10 @@ function renderPlayer(self, player) {
 
   // draw player
   const center = 0;
-  drawPlayer(bodyparts, player.color, canvasX, canvasY);
+  drawPlayer(bodyparts, player.color, diameter);
 
   // draw direction line
-  const lineLength = 50;
+  const lineLength = diameter;
   context.lineWidth = 3;
   context.beginPath();
   context.moveTo(center, center);
@@ -94,22 +92,23 @@ function renderPlayer(self, player) {
   context.stroke();
 
   // draw username
+  const usernameOffset = 10;
   context.font = '20px Trebuchet MS';
   context.textAlign = 'center';
-  context.textBaseline = 'top';
+  context.textBaseline = 'bottom';
   context.lineJoin = 'round';
   context.miterLimit = 2;
   context.lineWidth = 3;
   context.strokeStyle = tinycolor(player.color).darken(50);
-  context.strokeText(username, center, -PLAYER_DIAMETER);
+  context.strokeText(username, center, -(radius + usernameOffset));
   context.fillStyle = tinycolor(player.color);
-  context.fillText(username, center, -PLAYER_DIAMETER);
+  context.fillText(username, center, -(radius+usernameOffset));
 
   // restore changes
   context.restore();
 }
 
-function drawPlayer(bodyparts, color) {
+function drawPlayer(bodyparts, color, diameter) {
   context.beginPath();
   bodyparts.forEach(
       (bodypart) => {
@@ -123,10 +122,10 @@ function drawPlayer(bodyparts, color) {
   const outlineWidth = 5;
   context.lineCap = 'round';
   context.lineJoin = 'round';
-  context.lineWidth = PLAYER_DIAMETER + outlineWidth;
+  context.lineWidth = diameter + outlineWidth;
   context.strokeStyle = tinycolor(color).darken(50);
   context.stroke();
-  context.lineWidth = PLAYER_DIAMETER;
+  context.lineWidth = diameter;
   context.strokeStyle = color;
   context.stroke();
 }

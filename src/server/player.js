@@ -1,6 +1,7 @@
 const tinycolor = require('tinycolor2');
 const GameObject = require('./gameobject');
-const {MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH} = require('../shared/constants');
+const {PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH, PLAYER_RADIUS_GROWTH,
+  PLAYER_LENGTH_GROWTH} = require('../shared/constants');
 const {getEveryNth, clamp} = require('../shared/helpers.js');
 
 class BodyPart extends GameObject {
@@ -57,20 +58,22 @@ class Player extends GameObject {
   }
 
   serialize() {
+    // send only part of bodyparts to render
     const reportedBodyParts = getEveryNth(this.bodyparts, this.nthBodypartReported);
     return {
       x: this.x,
       y: this.y,
       dir: this.dir,
-      username: this.username,
       color: this.color,
-      // send only part of bodyparts to render
+      radius: this.radius,
+      username: this.username,
       bodyparts: reportedBodyParts.map((o) => o.serialize()),
     };
   }
 
   eat() {
-    this.length += 1;
+    this.length += PLAYER_LENGTH_GROWTH;
+    this.radius += PLAYER_RADIUS_GROWTH;
   }
 }
 

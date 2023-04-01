@@ -67,7 +67,7 @@ class Game {
       const filteredObjects = objectsInRange.filter((object) => object.socketID != socketID);
       for (const object of filteredObjects) {
         const dist = Math.hypot(player.x - object.x, player.y - object.y);
-        if (dist < Constants.PLAYER_RADIUS) {
+        if (dist < player.radius + object.radius) {
           collisions[socketID] = object;
         }
       }

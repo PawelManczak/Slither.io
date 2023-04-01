@@ -1,4 +1,6 @@
-const {CELL_SIZE, GRID_CELLS} = require('../shared/constants');
+const {CELL_SIZE, GRID_CELLS, MAP_SIZE} = require('../shared/constants');
+const {clamp} = require('../shared/helpers.js');
+
 
 class GameObject {
   static objects = new Set();
@@ -24,14 +26,10 @@ class GameObject {
 
   set x(newX) {
     const previousCellX = this.cellX;
-    this._x = newX;
+    this._x = clamp(newX, 0, MAP_SIZE);
     if (previousCellX != this.cellX) {
-      try {
-        GameObject.objectsGrid[previousCellX][this.cellY].delete(this);
-        GameObject.objectsGrid[this.cellX][this.cellY].add(this);
-      } catch (error) {
-        console.error(error);
-      }
+      GameObject.objectsGrid[previousCellX][this.cellY].delete(this);
+      GameObject.objectsGrid[this.cellX][this.cellY].add(this);
     }
   }
 
@@ -41,23 +39,19 @@ class GameObject {
 
   set y(newY) {
     const previousCellY = this.cellY;
-    this._y = newY;
+    this._y = clamp(newY, 0, MAP_SIZE);
     if (previousCellY != this.cellY) {
-      try {
-        GameObject.objectsGrid[this.cellX][previousCellY].delete(this);
-        GameObject.objectsGrid[this.cellX][this.cellY].add(this);
-      } catch (error) {
-        console.error(error);
-      }
+      GameObject.objectsGrid[this.cellX][previousCellY].delete(this);
+      GameObject.objectsGrid[this.cellX][this.cellY].add(this);
     }
   }
 
   get cellX() {
-    return Math.floor(this._x / CELL_SIZE);
+    return clamp(Math.floor(this._x / CELL_SIZE), 0, GRID_CELLS-1);
   }
 
   get cellY() {
-    return Math.floor(this._y / CELL_SIZE);
+    return clamp(Math.floor(this._y / CELL_SIZE), 0, GRID_CELLS-1);
   }
 
   get cell() {

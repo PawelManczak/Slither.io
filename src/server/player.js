@@ -1,6 +1,16 @@
 const GameObject = require('./gameobject');
 const {MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH} = require('../shared/constants');
 
+class BodyPart extends GameObject {
+  constructor(x, y) {
+    super(x, y);
+  }
+
+  serialize() {
+    return {x: this._x, y: this._y};
+  }
+}
+
 class Player extends GameObject {
   constructor(socketID, username, x, y) {
     super(x, y);
@@ -9,7 +19,14 @@ class Player extends GameObject {
     this.socketID = socketID;
     this.length = PLAYER_STARTING_LENGTH;
     this.nthBodypartReported = 5;
-    this.bodyparts = Array(this.length).fill({x: x, y: y});
+    this.bodyparts = Array(this.length).fill(new BodyPart(x, y));
+  }
+
+  delete() {
+    this.bodyparts.forEach((element) => {
+      element.delete();
+    });
+    super.delete();
   }
 
   setDirection(dir) {
@@ -17,6 +34,7 @@ class Player extends GameObject {
   }
 
   update(delta) {
+    if (this.deleted) return;
     this.x += PLAYER_SPEED * Math.cos(this.dir) * delta;
     this.y += PLAYER_SPEED * Math.sin(this.dir) * delta;
 
@@ -31,19 +49,22 @@ class Player extends GameObject {
   updateBodyparts() {
     // remove last element if player didnt eat
     if (this.bodyparts.length >= this.length) {
-      this.bodyparts.pop();
+      const bodypart = this.bodyparts.pop();
+      bodypart.delete();
     }
     // insert new element on start
-    this.bodyparts.unshift({x: this.x, y: this.y});
+    this.bodyparts.unshift(new BodyPart(this.x, this.y));
   }
 
   serialize() {
+    const reportedBodyParts = getEveryNth(this.bodyparts, this.nthBodypartReported);
     return {
       x: this.x,
       y: this.y,
       dir: this.dir,
       username: this.username,
-      bodyparts: getEveryNth(this.bodyparts, this.nthBodypartReported), // send only part of bodyparts to render
+      // send only part of bodyparts to render
+      bodyparts: reportedBodyParts.map((o) => o.serialize()),
     };
   }
 

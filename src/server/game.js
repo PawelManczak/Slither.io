@@ -13,19 +13,21 @@ class Game {
 
   addPlayer(socket, username) {
     this.sockets[socket.id] = socket;
-
     const x = Constants.MAP_SIZE * Math.random();
     const y = Constants.MAP_SIZE * Math.random();
     this.players[socket.id] = new Player(socket.id, username, x, y);
   }
 
   removePlayer(socket) {
-    delete this.sockets[socket.id];
-    delete this.players[socket.id];
+    if (socket.id in this.players) {
+      this.players[socket.id].delete();
+      delete this.sockets[socket.id];
+      delete this.players[socket.id];
+    }
   }
 
   handleInput(socket, dir) {
-    if (this.players[socket.id]) {
+    if (socket.id in this.players) {
       this.players[socket.id].setDirection(dir);
     }
   }

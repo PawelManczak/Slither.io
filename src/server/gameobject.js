@@ -7,11 +7,13 @@ class GameObject {
   constructor(x, y) {
     this._x = x;
     this._y = y;
+    this.deleted = false;
     GameObject.objectsGrid[this.cellX][this.cellY].add(this);
     GameObject.objects.add(this);
   }
 
   delete() {
+    this.deleted = true;
     GameObject.objects.delete(this);
     GameObject.objectsGrid[this.cellX][this.cellY].delete(this);
   }

@@ -5,10 +5,10 @@ const {MAP_SIZE, FOOD_AMOUNT_PER_SQUARE, FOOD_SQUARE, FOOD_MIN_SIZE, FOOD_MAX_SI
 const {getEveryNth, randomInteger} = require('../shared/helpers.js');
 
 class Food extends GameObject {
-  constructor(x, y, fromPlayer) {
+  constructor(x, y, playerColor) {
     super(x, y);
-    this.fromPlayer = fromPlayer;
-    this.color = tinycolor.random().toHexString();
+    this.fromPlayer = (playerColor == undefined);
+    this.color = playerColor ? playerColor : tinycolor.random().toHexString();
     this.size = randomInteger(FOOD_MIN_SIZE, FOOD_MAX_SIZE);
   }
 
@@ -38,17 +38,16 @@ class FoodManager {
   generateFood() {
     const x = MAP_SIZE * Math.random();
     const y = MAP_SIZE * Math.random();
-    this.food.push(new Food(x, y, false));
+    this.food.push(new Food(x, y));
   }
 
   compostBody(player) {
-    // TODO: color of compost should represent color of player
     const compostFoodNumber = Math.floor(player.bodyparts.length/PERCENT_OF_BODY_COMPOSTED);
     getEveryNth(player.bodyparts, compostFoodNumber).forEach(
         (bodypart) => {
           const x = bodypart.x + PLAYER_DIAMETER*(Math.random()-0.5);
           const y = bodypart.y + PLAYER_DIAMETER*(Math.random()-0.5);
-          this.bodyFood.push(new Food(x, y, true));
+          this.bodyFood.push(new Food(x, y, player.color));
         },
     );
   }

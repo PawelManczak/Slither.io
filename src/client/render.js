@@ -1,6 +1,6 @@
 import tinycolor from 'tinycolor2';
-import {getCurrentState} from './state';
 import Stats from 'stats.js';
+import {getCurrentState} from './state';
 
 const Constants = require('../shared/constants');
 const {
@@ -102,7 +102,9 @@ function renderPlayer(self, player) {
   context.lineJoin = 'round';
   context.miterLimit = 2;
   context.lineWidth = 3;
+  context.strokeStyle = tinycolor(playerColor).darken(50);
   context.strokeText(username, center, -PLAYER_DIAMETER);
+  context.fillStyle = tinycolor(playerColor);
   context.fillText(username, center, -PLAYER_DIAMETER);
 
   // restore changes

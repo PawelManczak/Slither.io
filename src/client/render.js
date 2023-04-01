@@ -31,7 +31,6 @@ function setCanvasDimensions() {
 }
 
 window.addEventListener('resize', setCanvasDimensions);
-window.addEventListener('keydown', showPerformance);
 
 function render() {
   stats.begin();
@@ -153,15 +152,13 @@ function renderFood(playerX, playerY, food) {
   );
 }
 
-function showPerformance(event) {
-  if (event.key.toLowerCase() == 'p') {
-    if (document.getElementById('performanceDisplay')) {
-      document.body.removeChild(stats.dom);
-    } else {
-      stats.dom.id = 'performanceDisplay';
-      document.body.appendChild(stats.dom);
-      stats.showPanel(0);
-    }
+export function switchPerformanceDisplay() {
+  if (document.getElementById('performanceDisplay')) {
+    document.body.removeChild(stats.dom);
+  } else {
+    stats.dom.id = 'performanceDisplay';
+    document.body.appendChild(stats.dom);
+    stats.showPanel(0);
   }
 }
 

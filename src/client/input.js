@@ -1,5 +1,6 @@
 import {updateDirection} from './networking';
 import {getCurrentState} from './state';
+import {switchPerformanceDisplay} from './render';
 
 const Constants = require('../shared/constants');
 
@@ -29,6 +30,10 @@ function onKeyDown(e) {
       break;
     case 'ArrowDown':
       headingAngle = Math.PI / 2;
+      break;
+    case 'P':
+    case 'p':
+      switchPerformanceDisplay();
       break;
   }
 }

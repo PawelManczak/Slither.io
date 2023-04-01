@@ -1,7 +1,7 @@
 const tinycolor = require('tinycolor2');
 const GameObject = require('./gameobject');
 const {MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH} = require('../shared/constants');
-const {getEveryNth} = require('../shared/helpers.js');
+const {getEveryNth, clamp} = require('../shared/helpers.js');
 
 class BodyPart extends GameObject {
   constructor(x, y, socketID) {
@@ -43,8 +43,8 @@ class Player extends GameObject {
     this.y += PLAYER_SPEED * Math.sin(this.dir) * delta;
 
     // Clamp position to boundaries
-    this.x = Math.max(PLAYER_RADIUS, Math.min(MAP_SIZE - PLAYER_RADIUS, this.x));
-    this.y = Math.max(PLAYER_RADIUS, Math.min(MAP_SIZE - PLAYER_RADIUS, this.y));
+    this.x = clamp(this.x, PLAYER_RADIUS, MAP_SIZE - PLAYER_RADIUS);
+    this.y = clamp(this.y, PLAYER_RADIUS, MAP_SIZE - PLAYER_RADIUS);
 
     this.updateBodyparts();
   }

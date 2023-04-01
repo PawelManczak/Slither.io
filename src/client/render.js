@@ -1,5 +1,6 @@
 import tinycolor from 'tinycolor2';
 import {getCurrentState} from './state';
+import Stats from 'stats.js';
 
 const Constants = require('../shared/constants');
 const {
@@ -20,6 +21,9 @@ const context = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// Measure performance
+const stats = new Stats();
+
 let animationFrameRequestId;
 
 function setCanvasDimensions() {
@@ -28,8 +32,11 @@ function setCanvasDimensions() {
 }
 
 window.addEventListener('resize', setCanvasDimensions);
+window.addEventListener('keydown', showPerformance);
 
 function render() {
+  stats.begin();
+
   const state = getCurrentState();
   if (state) {
     const {self, others, foodPositions} = state;
@@ -38,6 +45,9 @@ function render() {
     renderPlayer(self, self);
     others.forEach((p) => renderPlayer(self, p));
   }
+
+  stats.end();
+
   animationFrameRequestId = requestAnimationFrame(render);
 }
 
@@ -140,6 +150,18 @@ function renderFood(playerX, playerY, foodPositions) {
         drawCircle(pos.x - offsetX, pos.y - offsetY, FOOD_SIZE, FOOD_COLOR);
       },
   );
+}
+
+function showPerformance(event) {
+  if (event.key.toLowerCase() == 'p') {
+    if (document.getElementById('performanceDisplay')) {
+      document.body.removeChild(stats.dom);
+    } else {
+      stats.dom.id = 'performanceDisplay';
+      document.body.appendChild(stats.dom);
+      stats.showPanel(0);
+    }
+  }
 }
 
 export function startRendering() {

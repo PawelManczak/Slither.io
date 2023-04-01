@@ -1,5 +1,5 @@
 import {connect, play} from './networking';
-import {startRendering} from './render';
+import {startRendering, stopRendering} from './render';
 import {startCapturingInput, stopCapturingInput} from './input';
 
 const playButton = document.getElementById('play-button');

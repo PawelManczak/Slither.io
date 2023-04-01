@@ -168,3 +168,9 @@ export function startRendering() {
   cancelAnimationFrame(animationFrameRequestId);
   animationFrameRequestId = requestAnimationFrame(render);
 }
+
+export function stopRendering() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  cancelAnimationFrame(animationFrameRequestId);
+}
+

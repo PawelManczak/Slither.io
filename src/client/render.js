@@ -1,15 +1,14 @@
-import tinycolor from "tinycolor2";
-import { getCurrentState } from "./state";
+import tinycolor from 'tinycolor2';
+import {getCurrentState} from './state';
 
 const Constants = require('../shared/constants');
 const {
-    MAP_SIZE,
-    PLAYER_DIAMETER,
-    PLAYER_RADIUS,
-    PLAYER_COLOR,
-    OTHERS_COLOR,
-    FOOD_COLOR,
-    FOOD_SIZE
+  MAP_SIZE,
+  PLAYER_DIAMETER,
+  PLAYER_COLOR,
+  OTHERS_COLOR,
+  FOOD_COLOR,
+  FOOD_SIZE,
 } = Constants;
 
 
@@ -24,127 +23,126 @@ canvas.height = window.innerHeight;
 let animationFrameRequestId;
 
 function setCanvasDimensions() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
 
 window.addEventListener('resize', setCanvasDimensions);
 
 function render() {
-    const state = getCurrentState()
-    if (state) {
-        const { time, self, others, foodPositions } = state;
-        renderBackground(self.x, self.y);
-        renderFood(self.x, self.y, foodPositions);
-        renderPlayer(self, self);
-        others.forEach(p => renderPlayer(self, p));
-    }
-    animationFrameRequestId = requestAnimationFrame(render);
+  const state = getCurrentState();
+  if (state) {
+    const {self, others, foodPositions} = state;
+    renderBackground(self.x, self.y);
+    renderFood(self.x, self.y, foodPositions);
+    renderPlayer(self, self);
+    others.forEach((p) => renderPlayer(self, p));
+  }
+  animationFrameRequestId = requestAnimationFrame(render);
 }
 
 function renderBackground(centerX, centerY) {
-    // background
-    const backgroundX = canvas.width / 2 - centerX;
-    const backgroundY = canvas.height / 2 - centerY;
-    const backgroundGradient = context.createLinearGradient(
-        backgroundX,
-        backgroundY,
-        backgroundX + MAP_SIZE,
-        backgroundY + MAP_SIZE
-    );
-    backgroundGradient.addColorStop(0, 'crimson');
-    backgroundGradient.addColorStop(1, 'beige');
-    context.fillStyle = backgroundGradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
+  // background
+  const backgroundX = canvas.width / 2 - centerX;
+  const backgroundY = canvas.height / 2 - centerY;
+  const backgroundGradient = context.createLinearGradient(
+      backgroundX,
+      backgroundY,
+      backgroundX + MAP_SIZE,
+      backgroundY + MAP_SIZE,
+  );
+  backgroundGradient.addColorStop(0, 'crimson');
+  backgroundGradient.addColorStop(1, 'beige');
+  context.fillStyle = backgroundGradient;
+  context.fillRect(0, 0, canvas.width, canvas.height);
 
-    // boundaries
-    context.strokeStyle = 'black';
-    context.lineWidth = 1;
-    context.strokeRect(canvas.width / 2 - centerX, canvas.height / 2 - centerY, MAP_SIZE, MAP_SIZE);
-
+  // boundaries
+  context.strokeStyle = 'black';
+  context.lineWidth = 1;
+  context.strokeRect(canvas.width / 2 - centerX, canvas.height / 2 - centerY, MAP_SIZE, MAP_SIZE);
 }
 
 function renderPlayer(self, player) {
-    const { x, y, dir, username, bodyparts } = player;
-    const canvasX = canvas.width / 2 + x - self.x;
-    const canvasY = canvas.height / 2 + y - self.y;
+  const {x, y, dir, username, bodyparts} = player;
+  const canvasX = canvas.width / 2 + x - self.x;
+  const canvasY = canvas.height / 2 + y - self.y;
 
-    // save state to restore changes (e.g. context translation) later  
-    context.save();
+  // save state to restore changes (e.g. context translation) later
+  context.save();
 
-    // make context relative to player
-    context.translate(canvasX, canvasY);
+  // make context relative to player
+  context.translate(canvasX, canvasY);
 
-    // draw player
-    const playerColor = (self == player) ? PLAYER_COLOR : OTHERS_COLOR;
-    const center = 0;
-    drawPlayer(bodyparts, playerColor, canvasX, canvasY);
+  // draw player
+  const playerColor = (self == player) ? PLAYER_COLOR : OTHERS_COLOR;
+  const center = 0;
+  drawPlayer(bodyparts, playerColor, canvasX, canvasY);
 
-    // draw direction line
-    const lineLength = 50;
-    context.lineWidth = 3;
-    context.beginPath();
-    context.moveTo(center, center);
-    context.lineTo(center + lineLength * Math.cos(dir), center + lineLength * Math.sin(dir));
-    context.stroke();
+  // draw direction line
+  const lineLength = 50;
+  context.lineWidth = 3;
+  context.beginPath();
+  context.moveTo(center, center);
+  context.lineTo(center + lineLength * Math.cos(dir), center + lineLength * Math.sin(dir));
+  context.stroke();
 
-    // draw username
-    context.font = "20px Trebuchet MS";
-    context.textAlign = "center";
-    context.textBaseline = "top";
-    context.lineJoin = "round";
-    context.miterLimit = 2;
-    context.lineWidth = 3;
-    context.strokeText(username, center, -PLAYER_DIAMETER);
-    context.fillText(username, center, -PLAYER_DIAMETER);
+  // draw username
+  context.font = '20px Trebuchet MS';
+  context.textAlign = 'center';
+  context.textBaseline = 'top';
+  context.lineJoin = 'round';
+  context.miterLimit = 2;
+  context.lineWidth = 3;
+  context.strokeText(username, center, -PLAYER_DIAMETER);
+  context.fillText(username, center, -PLAYER_DIAMETER);
 
-    // restore changes
-    context.restore();
+  // restore changes
+  context.restore();
 }
 
 function drawPlayer(bodyparts, color) {
-    context.beginPath();
-    bodyparts.forEach(
-        (bodypart) => {
-            // as canvas is centered to the player, each bodypart
-            // should have position relative to the head
-            const x = bodypart.x - bodyparts[0].x;
-            const y = bodypart.y - bodyparts[0].y;
-            context.lineTo(x, y);
-        }
-    )
-    const outlineWidth = 5;
-    context.lineCap = "round";
-    context.lineJoin = "round";
-    context.lineWidth = PLAYER_DIAMETER + outlineWidth;
-    context.strokeStyle = tinycolor(color).darken(50);
-    context.stroke();
-    context.lineWidth = PLAYER_DIAMETER;
-    context.strokeStyle = color;
-    context.stroke();
+  context.beginPath();
+  bodyparts.forEach(
+      (bodypart) => {
+        // as canvas is centered to the player, each bodypart
+        // should have position relative to the head
+        const x = bodypart.x - bodyparts[0].x;
+        const y = bodypart.y - bodyparts[0].y;
+        context.lineTo(x, y);
+      },
+  );
+  const outlineWidth = 5;
+  context.lineCap = 'round';
+  context.lineJoin = 'round';
+  context.lineWidth = PLAYER_DIAMETER + outlineWidth;
+  context.strokeStyle = tinycolor(color).darken(50);
+  context.stroke();
+  context.lineWidth = PLAYER_DIAMETER;
+  context.strokeStyle = color;
+  context.stroke();
 }
 
 function drawCircle(centerX, centerY, radius, color) {
-    context.beginPath();
-    context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = color;
-    context.fill();
-    context.lineWidth = 3;
-    context.strokeStyle = tinycolor(color).darken(50);
-    context.stroke();
+  context.beginPath();
+  context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+  context.fillStyle = color;
+  context.fill();
+  context.lineWidth = 3;
+  context.strokeStyle = tinycolor(color).darken(50);
+  context.stroke();
 }
 
 function renderFood(playerX, playerY, foodPositions) {
-    const offsetX = playerX - canvas.width / 2
-    const offsetY = playerY - canvas.height / 2
-    foodPositions.forEach(
-        (pos) => {
-            drawCircle(pos.x - offsetX, pos.y - offsetY, FOOD_SIZE, FOOD_COLOR);
-        }
-    )
+  const offsetX = playerX - canvas.width / 2;
+  const offsetY = playerY - canvas.height / 2;
+  foodPositions.forEach(
+      (pos) => {
+        drawCircle(pos.x - offsetX, pos.y - offsetY, FOOD_SIZE, FOOD_COLOR);
+      },
+  );
 }
 
 export function startRendering() {
-    cancelAnimationFrame(animationFrameRequestId);
-    animationFrameRequestId = requestAnimationFrame(render);
+  cancelAnimationFrame(animationFrameRequestId);
+  animationFrameRequestId = requestAnimationFrame(render);
 }

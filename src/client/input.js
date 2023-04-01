@@ -1,5 +1,5 @@
-import { updateDirection } from './networking';
-import { getCurrentState } from './state';
+import {updateDirection} from './networking';
+import {getCurrentState} from './state';
 
 const Constants = require('../shared/constants');
 
@@ -18,16 +18,16 @@ function onTouchInput(e) {
 
 function onKeyDown(e) {
   switch (e.key) {
-    case "ArrowRight":
+    case 'ArrowRight':
       headingAngle = 0;
       break;
-    case "ArrowUp":
+    case 'ArrowUp':
       headingAngle = -Math.PI / 2;
       break;
-    case "ArrowLeft":
+    case 'ArrowLeft':
       headingAngle = -Math.PI;
       break;
-    case "ArrowDown":
+    case 'ArrowDown':
       headingAngle = Math.PI / 2;
       break;
   }
@@ -40,27 +40,28 @@ function handleInput(x, y) {
 }
 
 function getAngleBetweenMinusPiAndPi(angle) {
-  if (angle > Math.PI)
+  if (angle > Math.PI) {
     angle -= 2 * Math.PI;
-  else if (angle < -Math.PI)
+  } else if (angle < -Math.PI) {
     angle += 2 * Math.PI;
+  }
   return angle;
 }
 
 function getSteeringDirection() {
   const state = getCurrentState();
   if (state) {
-    const { time, self } = state;
+    const {time, self} = state;
     const deltaTimeSeconds = (Date.now() - time) / 1000;
-    const maxDeltaAngle = Constants.PLAYER_ROTATION * deltaTimeSeconds
+    const maxDeltaAngle = Constants.PLAYER_ROTATION * deltaTimeSeconds;
     const previousAngle = self.dir;
     const changeInAngle = headingAngle - previousAngle;
     const smallestChange = getAngleBetweenMinusPiAndPi(changeInAngle);
     const steeringAngle = previousAngle + Math.sign(smallestChange) * Math.min(Math.abs(smallestChange), maxDeltaAngle);
     return steeringAngle;
-  }
-  else
+  } else {
     return headingAngle;
+  }
 }
 
 function steerDirection() {

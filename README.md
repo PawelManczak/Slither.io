@@ -23,8 +23,7 @@ $ npm start
 
 
 ### TODO
-- food / @luluu9
-- collisions with players
+- collisions with players / @luluu9
 - interpolating
 - scoring
 - leaderboard
@@ -32,6 +31,9 @@ $ npm start
 - returning from death (play again)
 - unique color for each player
 - snake's eyes
+- minimap
+- field of vision
+- make each part of player's body independent (to be sure the tail is also rendered when players are distant from each other)
 
 
 ### Found bugs

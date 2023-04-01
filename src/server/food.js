@@ -1,37 +1,57 @@
 const GameObject = require('./gameobject');
-const {MAP_SIZE, FOOD_AMOUNT_PER_SQUARE, FOOD_SQUARE} = require('../shared/constants');
+const {MAP_SIZE, FOOD_AMOUNT_PER_SQUARE, FOOD_SQUARE, PLAYER_DIAMETER,
+  PERCENT_OF_BODY_COMPOSTED} = require('../shared/constants');
+const {getEveryNth} = require('../shared/helpers.js');
 
 class Food extends GameObject {
-  constructor(x, y) {
+  constructor(x, y, fromPlayer) {
     super(x, y);
+    this.fromPlayer = fromPlayer;
   }
 }
 
 class FoodManager {
   constructor() {
     this.food = [];
+    this.bodyFood = [];
     this.maxFoodAmount = (MAP_SIZE / FOOD_SQUARE) ** 2 * FOOD_AMOUNT_PER_SQUARE;
   }
 
   update(delta) {
     while (this.food.length < this.maxFoodAmount) {
-      this.addFood();
+      this.generateFood();
     }
   }
 
-  addFood() {
+  generateFood() {
     const x = MAP_SIZE * Math.random();
     const y = MAP_SIZE * Math.random();
-    this.food.push(new Food(x, y));
+    this.food.push(new Food(x, y, false));
+  }
+
+  compostBody(player) {
+    const compostFoodNumber = Math.floor(player.bodyparts.length/PERCENT_OF_BODY_COMPOSTED);
+    getEveryNth(player.bodyparts, compostFoodNumber).forEach(
+        (bodypart) => {
+          const x = bodypart.x + PLAYER_DIAMETER*(Math.random()-0.5);
+          const y = bodypart.y + PLAYER_DIAMETER*(Math.random()-0.5);
+          this.bodyFood.push(new Food(x, y, true));
+        },
+    );
   }
 
   removeFood(food) {
-    this.food = this.food.filter((obj) => (obj != food));
+    if (food.fromPlayer) {
+      this.bodyFood = this.bodyFood.filter((obj) => (obj != food));
+    } else {
+      this.food = this.food.filter((obj) => (obj != food));
+    }
     food.delete();
   }
 
   serialize() {
-    return this.food.map((obj) => ({x: obj.x, y: obj.y}));
+    const foodPositions = this.food.concat(this.bodyFood).map((obj) => ({x: obj.x, y: obj.y}));
+    return foodPositions;
   }
 }
 

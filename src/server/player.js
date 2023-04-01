@@ -1,5 +1,6 @@
 const GameObject = require('./gameobject');
 const {MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH} = require('../shared/constants');
+const {getEveryNth} = require('../shared/helpers.js');
 
 class BodyPart extends GameObject {
   constructor(x, y, socketID) {
@@ -72,16 +73,6 @@ class Player extends GameObject {
   eat() {
     this.length += 1;
   }
-}
-
-function getEveryNth(arr, nth) {
-  const result = [];
-
-  for (let index = 0; index < arr.length; index += nth) {
-    result.push(arr[index]);
-  }
-
-  return result;
 }
 
 module.exports = {Player, BodyPart};

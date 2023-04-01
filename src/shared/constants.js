@@ -9,6 +9,7 @@ const constants = {
   FOOD_SQUARE: 200,
   FOOD_SIZE: 10,
   SCORE_PER_FOOD: 1,
+  PERCENT_OF_BODY_COMPOSTED: 25,
 
   MAP_SIZE: 1000,
 

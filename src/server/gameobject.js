@@ -26,8 +26,12 @@ class GameObject {
     const previousCellX = this.cellX;
     this._x = newX;
     if (previousCellX != this.cellX) {
-      GameObject.objectsGrid[previousCellX][this.cellY].delete(this);
-      GameObject.objectsGrid[this.cellX][this.cellY].add(this);
+      try {
+        GameObject.objectsGrid[previousCellX][this.cellY].delete(this);
+        GameObject.objectsGrid[this.cellX][this.cellY].add(this);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
@@ -39,8 +43,12 @@ class GameObject {
     const previousCellY = this.cellY;
     this._y = newY;
     if (previousCellY != this.cellY) {
-      GameObject.objectsGrid[this.cellX][previousCellY].delete(this);
-      GameObject.objectsGrid[this.cellX][this.cellY].add(this);
+      try {
+        GameObject.objectsGrid[this.cellX][previousCellY].delete(this);
+        GameObject.objectsGrid[this.cellX][this.cellY].add(this);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 

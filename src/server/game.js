@@ -20,7 +20,9 @@ class Game {
 
   removePlayer(socketID) {
     if (socketID in this.players) {
-      this.players[socketID].delete();
+      const player = this.players[socketID];
+      this.foodManager.compostBody(player);
+      player.delete();
       delete this.sockets[socketID];
       delete this.players[socketID];
     }

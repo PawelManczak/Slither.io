@@ -1,12 +1,24 @@
+const tinycolor = require('tinycolor2');
 const GameObject = require('./gameobject');
-const {MAP_SIZE, FOOD_AMOUNT_PER_SQUARE, FOOD_SQUARE, PLAYER_DIAMETER,
-  PERCENT_OF_BODY_COMPOSTED} = require('../shared/constants');
-const {getEveryNth} = require('../shared/helpers.js');
+const {MAP_SIZE, FOOD_AMOUNT_PER_SQUARE, FOOD_SQUARE, FOOD_MIN_SIZE, FOOD_MAX_SIZE,
+  PLAYER_DIAMETER, PERCENT_OF_BODY_COMPOSTED} = require('../shared/constants');
+const {getEveryNth, randomInteger} = require('../shared/helpers.js');
 
 class Food extends GameObject {
   constructor(x, y, fromPlayer) {
     super(x, y);
     this.fromPlayer = fromPlayer;
+    this.color = tinycolor.random().toHexString();
+    this.size = randomInteger(FOOD_MIN_SIZE, FOOD_MAX_SIZE);
+  }
+
+  serialize() {
+    return {
+      x: this.x,
+      y: this.y,
+      size: this.size,
+      color: this.color,
+    };
   }
 }
 
@@ -30,6 +42,7 @@ class FoodManager {
   }
 
   compostBody(player) {
+    // TODO: color of compost should represent color of player
     const compostFoodNumber = Math.floor(player.bodyparts.length/PERCENT_OF_BODY_COMPOSTED);
     getEveryNth(player.bodyparts, compostFoodNumber).forEach(
         (bodypart) => {
@@ -50,7 +63,7 @@ class FoodManager {
   }
 
   serialize() {
-    const foodPositions = this.food.concat(this.bodyFood).map((obj) => ({x: obj.x, y: obj.y}));
+    const foodPositions = this.food.concat(this.bodyFood).map((obj) => obj.serialize());
     return foodPositions;
   }
 }

@@ -97,7 +97,7 @@ class Game {
       time: Date.now(),
       self: this.players[playerSocketID].serialize(),
       others: otherPlayers.map((p) => p.serialize()),
-      foodPositions: food.map((obj) => ({x: obj.x, y: obj.y})),
+      food: food.map((f) => f.serialize()),
     };
   }
 }

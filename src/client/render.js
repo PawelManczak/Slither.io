@@ -8,8 +8,7 @@ const {
   PLAYER_DIAMETER,
   PLAYER_COLOR,
   OTHERS_COLOR,
-  FOOD_COLOR,
-  FOOD_SIZE,
+  OUTLINE_RATIO,
 } = Constants;
 
 
@@ -39,9 +38,9 @@ function render() {
 
   const state = getCurrentState();
   if (state) {
-    const {self, others, foodPositions} = state;
+    const {self, others, food} = state;
     renderBackground(self.x, self.y);
-    renderFood(self.x, self.y, foodPositions);
+    renderFood(self.x, self.y, food);
     renderPlayer(self, self);
     others.forEach((p) => renderPlayer(self, p));
   }
@@ -137,17 +136,17 @@ function drawCircle(centerX, centerY, radius, color) {
   context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
   context.fillStyle = color;
   context.fill();
-  context.lineWidth = 3;
+  context.lineWidth = radius*OUTLINE_RATIO;
   context.strokeStyle = tinycolor(color).darken(50);
   context.stroke();
 }
 
-function renderFood(playerX, playerY, foodPositions) {
+function renderFood(playerX, playerY, food) {
   const offsetX = playerX - canvas.width / 2;
   const offsetY = playerY - canvas.height / 2;
-  foodPositions.forEach(
-      (pos) => {
-        drawCircle(pos.x - offsetX, pos.y - offsetY, FOOD_SIZE, FOOD_COLOR);
+  food.forEach(
+      (foodObject) => {
+        drawCircle(foodObject.x - offsetX, foodObject.y - offsetY, foodObject.size, foodObject.color);
       },
   );
 }

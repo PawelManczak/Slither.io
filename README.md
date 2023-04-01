@@ -34,6 +34,7 @@ $ npm start
 - minimap
 - field of vision
 - make each part of player's body independent (to be sure the tail is also rendered when players are distant from each other)
+- drop food on death
 
 
 ### Found bugs

@@ -26,9 +26,9 @@ const constants = {
   PLAYER_COLOR: '#99ff66',
   OTHERS_COLOR: '#ff3399',
   FOOD_COLOR: '#00ff00',
-}
+};
 
-constants.GRID_CELLS = Math.floor(constants.MAP_SIZE / constants.CELL_SIZE)
+constants.GRID_CELLS = Math.floor(constants.MAP_SIZE / constants.CELL_SIZE);
 
 
 module.exports = Object.freeze(constants);

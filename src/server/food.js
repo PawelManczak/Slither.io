@@ -7,7 +7,7 @@ const {getEveryNth, randomInteger} = require('../shared/helpers.js');
 class Food extends GameObject {
   constructor(x, y, playerColor) {
     super(x, y, randomInteger(FOOD_MIN_SIZE, FOOD_MAX_SIZE));
-    this.fromPlayer = (playerColor == undefined);
+    this.fromPlayer = (playerColor != undefined);
     this.color = playerColor ? playerColor : tinycolor.random().toHexString();
   }
 

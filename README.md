@@ -23,18 +23,20 @@ $ npm start
 
 
 ### TODO
-- collisions with players / @luluu9
 - interpolating
 - scoring
 - leaderboard
 - improving players state update
-- returning from death (play again)
+- play again screen instead of disconnecting
 - unique color for each player
 - snake's eyes
 - minimap
 - field of vision
-- make each part of player's body independent (to be sure the tail is also rendered when players are distant from each other)
-- drop food on death
+- make each part of player's body drawn independent
+- drop food on death / @luluu9
+- add radius as GameObject property
+- spawn players on unoccupied cell
+- fix missing sourceCode and favicon images
 
 
 ### Found bugs

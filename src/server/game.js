@@ -1,6 +1,6 @@
 const Constants = require('../shared/constants');
 const {Food, FoodManager} = require('./food');
-const Player = require('./player');
+const {Player, BodyPart} = require('./player');
 
 class Game {
   constructor() {
@@ -18,11 +18,11 @@ class Game {
     this.players[socket.id] = new Player(socket.id, username, x, y);
   }
 
-  removePlayer(socket) {
-    if (socket.id in this.players) {
-      this.players[socket.id].delete();
-      delete this.sockets[socket.id];
-      delete this.players[socket.id];
+  removePlayer(socketID) {
+    if (socketID in this.players) {
+      this.players[socketID].delete();
+      delete this.sockets[socketID];
+      delete this.players[socketID];
     }
   }
 
@@ -57,19 +57,31 @@ class Game {
   }
 
   handleCollisions() {
-    const collisions = {}; // playerSocketID: food
+    const collisionCheckRange = 100;
+    const collisions = {}; // playerSocketID: GameObject
     for (const socketID of Object.keys(this.players)) {
       const player = this.players[socketID];
-      for (const food of this.foodManager.food) {
-        const dist = Math.hypot(player.x - food.x, player.y - food.y);
+      const objectsInRange = player.getCloseObjectsTo(collisionCheckRange);
+      const filteredObjects = objectsInRange.filter((object) => object.socketID != socketID);
+      for (const object of filteredObjects) {
+        const dist = Math.hypot(player.x - object.x, player.y - object.y);
         if (dist < Constants.PLAYER_RADIUS) {
-          collisions[socketID] = food;
+          collisions[socketID] = object;
         }
       }
     }
-    for (const [socketID, food] of Object.entries(collisions)) {
-      this.players[socketID].eat();
-      this.foodManager.removeFood(food);
+
+    for (const [socketID, object] of Object.entries(collisions)) {
+      const player = this.players[socketID];
+      if (object instanceof Food) {
+        this.players[socketID].eat();
+        this.foodManager.removeFood(object);
+      } else if (object instanceof BodyPart) {
+        this.sockets[socketID].emit(Constants.MSG_TYPES.GAME_OVER);
+        this.removePlayer(socketID);
+      } else {
+        console.log(`Unimplemented collision of ${player.username} with ${object.constructor.name}`);
+      }
     }
   }
 

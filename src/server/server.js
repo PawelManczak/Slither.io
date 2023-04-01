@@ -49,5 +49,5 @@ function handleInput(dir) {
 function onDisconnect() {
   const socketID = this.id;
   console.log(`Player (${socketID}) disconnected`);
-  game.removePlayer(this);
+  game.removePlayer(socketID);
 }

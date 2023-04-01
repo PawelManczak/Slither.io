@@ -2,8 +2,9 @@ const GameObject = require('./gameobject');
 const {MAP_SIZE, PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH} = require('../shared/constants');
 
 class BodyPart extends GameObject {
-  constructor(x, y) {
+  constructor(x, y, socketID) {
     super(x, y);
+    this.socketID = socketID;
   }
 
   serialize() {
@@ -19,7 +20,7 @@ class Player extends GameObject {
     this.socketID = socketID;
     this.length = PLAYER_STARTING_LENGTH;
     this.nthBodypartReported = 5;
-    this.bodyparts = Array(this.length).fill(new BodyPart(x, y));
+    this.bodyparts = Array(this.length).fill(new BodyPart(x, y, socketID));
   }
 
   delete() {
@@ -53,7 +54,7 @@ class Player extends GameObject {
       bodypart.delete();
     }
     // insert new element on start
-    this.bodyparts.unshift(new BodyPart(this.x, this.y));
+    this.bodyparts.unshift(new BodyPart(this.x, this.y, this.socketID));
   }
 
   serialize() {
@@ -83,4 +84,4 @@ function getEveryNth(arr, nth) {
   return result;
 }
 
-module.exports = Player;
+module.exports = {Player, BodyPart};

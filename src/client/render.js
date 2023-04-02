@@ -32,9 +32,8 @@ window.addEventListener('resize', setCanvasDimensions);
 function render() {
   stats.begin();
 
-  const state = getCurrentState();
-  if (state) {
-    const {self, others, food} = state;
+  const {self, others, food} = getCurrentState();
+  if (self) {
     renderBackground(self.x, self.y);
     renderFood(self.x, self.y, food);
     renderPlayer(self, self);

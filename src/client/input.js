@@ -54,9 +54,8 @@ function getAngleBetweenMinusPiAndPi(angle) {
 }
 
 function getSteeringDirection() {
-  const state = getCurrentState();
-  if (state) {
-    const {time, self} = state;
+  const {time, self} = getCurrentState();
+  if (self) {
     const deltaTimeSeconds = (Date.now() - time) / 1000;
     const maxDeltaAngle = Constants.PLAYER_ROTATION * deltaTimeSeconds;
     const previousAngle = self.dir;

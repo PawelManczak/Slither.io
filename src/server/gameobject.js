@@ -7,6 +7,7 @@ class GameObject {
   static objectsGrid = new Array(GRID_CELLS).fill(0).map(() => new Array(GRID_CELLS).fill(0).map(() => new Set()));
 
   constructor(x, y, radius) {
+    this.id = GameObject.objects.size;
     this._x = x;
     this._y = y;
     this.deleted = false;

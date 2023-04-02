@@ -11,7 +11,7 @@ class BodyPart extends GameObject {
   }
 
   serialize() {
-    return {x: this._x, y: this._y};
+    return {id: this.id, x: this._x, y: this._y};
   }
 }
 
@@ -61,6 +61,7 @@ class Player extends GameObject {
     // send only part of bodyparts to render
     const reportedBodyParts = getEveryNth(this.bodyparts, this.nthBodypartReported);
     return {
+      id: this.id,
       x: this.x,
       y: this.y,
       dir: this.dir,

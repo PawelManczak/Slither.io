@@ -24,13 +24,26 @@ console.log(`Server listening on port ${port}`);
 // Setup socket.io
 const io = socketio(server);
 
+const delayWrapper = ((callback, maxDelay) => {
+  // artifial delay is only present on development
+  if (process.env.npm_lifecycle_event == 'develop') {
+    return function(...args) {
+      setTimeout(() => callback.apply(this, args), maxDelay * Math.random());
+    };
+  }
+  return callback;
+});
+
 // Listen for socket.io connections
 io.on('connection', (socket) => {
   console.log('Player connected!', socket.id);
 
-  socket.on(Constants.MSG_TYPES.JOIN_GAME, joinGame);
-  socket.on(Constants.MSG_TYPES.INPUT, handleInput);
-  socket.on('disconnect', onDisconnect);
+  // add artifical delay to simulate network latency
+  socket.emit = delayWrapper(socket.emit, Constants.SERVER_ARTIFICAL_MAX_DELAY);
+
+  socket.on(Constants.MSG_TYPES.JOIN_GAME, delayWrapper(joinGame, Constants.CLIENT_ARTIFICAL_MAX_DELAY));
+  socket.on(Constants.MSG_TYPES.INPUT, delayWrapper(handleInput, Constants.CLIENT_ARTIFICAL_MAX_DELAY));
+  socket.on('disconnect', delayWrapper(onDisconnect, Constants.CLIENT_ARTIFICAL_MAX_DELAY));
 });
 
 // Setup the Game

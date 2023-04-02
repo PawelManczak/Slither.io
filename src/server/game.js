@@ -30,7 +30,7 @@ class Game {
 
   handleInput(socket, dir) {
     if (socket.id in this.players) {
-      this.players[socket.id].setDirection(dir);
+      this.players[socket.id].setHeadingAngle(dir);
     }
   }
 

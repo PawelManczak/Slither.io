@@ -62,7 +62,7 @@ function getSteeringDirection() {
     const changeInAngle = headingAngle - previousAngle;
     const smallestChange = getAngleBetweenMinusPiAndPi(changeInAngle);
     const steeringAngle = previousAngle + Math.sign(smallestChange) * Math.min(Math.abs(smallestChange), maxDeltaAngle);
-    return steeringAngle;
+    return getAngleBetweenMinusPiAndPi(steeringAngle);
   } else {
     return headingAngle;
   }

@@ -38,4 +38,4 @@ $ npm start
 
 
 ### Found bugs
-- when doing a full circle with the mouse around the player wrong direction is chosen
+None

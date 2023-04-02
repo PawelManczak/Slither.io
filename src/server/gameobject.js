@@ -3,17 +3,19 @@ const {clamp} = require('../shared/helpers.js');
 
 
 class GameObject {
+  static objectsCount = 0;
   static objects = new Set();
   static objectsGrid = new Array(GRID_CELLS).fill(0).map(() => new Array(GRID_CELLS).fill(0).map(() => new Set()));
 
   constructor(x, y, radius) {
-    this.id = GameObject.objects.size;
+    this.id = GameObject.objectsCount;
     this._x = x;
     this._y = y;
     this.deleted = false;
     this.radius = radius;
     GameObject.objectsGrid[this.cellX][this.cellY].add(this);
     GameObject.objects.add(this);
+    GameObject.objectsCount += 1;
   }
 
   delete() {

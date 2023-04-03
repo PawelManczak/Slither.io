@@ -1,8 +1,8 @@
 const tinycolor = require('tinycolor2');
 const GameObject = require('./gameobject');
 const {PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH, PLAYER_RADIUS_GROWTH,
-  PLAYER_LENGTH_GROWTH} = require('../shared/constants');
-const {getEveryNth, clamp} = require('../shared/helpers.js');
+  PLAYER_LENGTH_GROWTH, PLAYER_ROTATION} = require('../shared/constants');
+const {getEveryNth, getAngleBetweenMinusPiAndPi} = require('../shared/helpers.js');
 
 class BodyPart extends GameObject {
   constructor(x, y, radius, socketID) {
@@ -11,7 +11,7 @@ class BodyPart extends GameObject {
   }
 
   serialize() {
-    return {x: this._x, y: this._y};
+    return {id: this.id, x: this._x, y: this._y};
   }
 }
 
@@ -25,6 +25,7 @@ class Player extends GameObject {
     this.length = PLAYER_STARTING_LENGTH;
     this.nthBodypartReported = 5;
     this.bodyparts = Array(this.length).fill(new BodyPart(x, y, this.radius, socketID));
+    this.headingAngle = 0.0;
   }
 
   delete() {
@@ -34,8 +35,17 @@ class Player extends GameObject {
     super.delete();
   }
 
-  setDirection(dir) {
-    this.dir = dir;
+  setHeadingAngle(angle) {
+    this.headingAngle = angle;
+  }
+
+  getSteeringDirection(delta) {
+    const maxDeltaAngle = PLAYER_ROTATION * delta;
+    const previousAngle = this.dir;
+    const changeInAngle = this.headingAngle - previousAngle;
+    const smallestChange = getAngleBetweenMinusPiAndPi(changeInAngle);
+    const steeringAngle = previousAngle + Math.sign(smallestChange) * Math.min(Math.abs(smallestChange), maxDeltaAngle);
+    return getAngleBetweenMinusPiAndPi(steeringAngle);
   }
 
   update(delta) {
@@ -43,7 +53,14 @@ class Player extends GameObject {
     this.x += PLAYER_SPEED * Math.cos(this.dir) * delta;
     this.y += PLAYER_SPEED * Math.sin(this.dir) * delta;
 
+    this.updateDirection(delta);
     this.updateBodyparts();
+  }
+
+  updateDirection(delta) {
+    if (this.dir != this.headingAngle) {
+      this.dir = this.getSteeringDirection(delta);
+    }
   }
 
   // this part has to be time(delta)-dependent in future
@@ -61,6 +78,7 @@ class Player extends GameObject {
     // send only part of bodyparts to render
     const reportedBodyParts = getEveryNth(this.bodyparts, this.nthBodypartReported);
     return {
+      id: this.id,
       x: this.x,
       y: this.y,
       dir: this.dir,

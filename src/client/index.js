@@ -1,3 +1,4 @@
+import {initState} from './state';
 import {connect, play} from './networking';
 import {startRendering, stopRendering} from './render';
 import {startCapturingInput, stopCapturingInput} from './input';
@@ -12,6 +13,7 @@ Promise.all([
   playButton.onclick = () => {
     play(usernameInput.value);
     startScreen.style.display = 'none';
+    initState();
     startRendering();
     startCapturingInput();
   };

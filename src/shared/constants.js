@@ -25,8 +25,10 @@ const constants = {
   },
 
   SERVER_UPDATE_FREQ: 1000 / 60,
-
-  OUTLINE_RATIO: 0.12
+  SERVER_ARTIFICAL_MAX_DELAY: 50,  
+  CLIENT_ARTIFICAL_MAX_DELAY: 0,  
+  
+  OUTLINE_RATIO: 0.12,
 };
 
 constants.GRID_CELLS = Math.floor(constants.MAP_SIZE / constants.CELL_SIZE);

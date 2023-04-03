@@ -3,7 +3,8 @@ import {processGameUpdate} from './state';
 
 const Constants = require('../shared/constants');
 
-const socket = io(`ws://${window.location.host}`);
+const socketURLPrefix = window.location.hostname == 'localhost' ? 'ws' : 'wss';
+const socket = io(`${socketURLPrefix}://${window.location.host}`);
 const connectedPromise = new Promise((resolve) => {
   socket.on('connect', () => {
     console.log('Connected to server!');

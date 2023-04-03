@@ -32,11 +32,12 @@ window.addEventListener('resize', setCanvasDimensions);
 function render() {
   stats.begin();
 
-  const {self, others, food} = getCurrentState();
+  const {self, others, food, scores} = getCurrentState();
   if (self) {
     renderBackground(self.x, self.y);
     renderFood(self.x, self.y, food);
     renderPlayer(self, self);
+    renderLeaderBoard(scores, self);
     others.forEach((p) => renderPlayer(self, p));
   }
 
@@ -64,6 +65,34 @@ function renderBackground(centerX, centerY) {
   context.strokeStyle = 'black';
   context.lineWidth = 1;
   context.strokeRect(canvas.width / 2 - centerX, canvas.height / 2 - centerY, MAP_SIZE, MAP_SIZE);
+}
+
+function renderLeaderBoard(scores, self) {
+  const offset = 10;
+  let startOfText=35;
+  const widthOfboard = canvas.width*0.2;
+  const heightOfBoard = canvas.height*0.3;
+  const distanceBetweenLines =20;
+  context.fillStyle = 'rgba(113, 161, 228, 0.66)';
+  context.fillRect(canvas.width*0.8, offset, widthOfboard-offset, heightOfBoard);
+  context.fillStyle = 'rgba(255, 255, 228, 0.66)';
+  context.font = '20px Trebuchet MS';
+  context.textAlign = 'center';
+  context.textBaseline = 'bottom';
+  context.lineJoin = 'round';
+  context.miterLimit = 2;
+  context.lineWidth = 3;
+  context.fillText('User name', canvas.width-widthOfboard*0.75, startOfText);
+  context.fillText('Score', canvas.width-widthOfboard*0.25, startOfText);
+  startOfText += distanceBetweenLines;
+  let number=1;
+  for (const player of scores) {
+    startOfText += distanceBetweenLines;
+    context.fillText('#'+number, canvas.width-widthOfboard+1.5*offset, startOfText);
+    context.fillText(player.username, canvas.width-widthOfboard*0.75, startOfText);
+    context.fillText(player.score, canvas.width-widthOfboard*0.25, startOfText);
+    number+=1;
+  }
 }
 
 function renderPlayer(self, player) {

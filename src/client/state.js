@@ -62,6 +62,7 @@ export function getCurrentState() {
       self: interpolateObject(baseUpdate.self, next.self, ratio),
       others: interpolateObjectArray(baseUpdate.others, next.others, ratio),
       food: baseUpdate.food,
+      scores: baseUpdate.scores,
     };
   }
 }

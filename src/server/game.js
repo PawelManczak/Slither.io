@@ -71,6 +71,17 @@ class Game {
     }
   }
 
+  calculateLeaderBoard() {
+    const scores = [];
+    for (const socketID of Object.keys(this.players)) {
+      const player = this.players[socketID];
+      scores.push({username: player.username, score: player.length});
+    }
+    scores.sort((a, b) => b.score - a.score);
+    const top10 = scores.slice(0, 10).map((player)=>({username: player.username, score: player.score}));
+    return top10;
+  }
+
   handleCollisions() {
     const collisionCheckRange = 100;
     const collisions = {}; // playerSocketID: GameObject
@@ -113,6 +124,7 @@ class Game {
       self: this.players[playerSocketID].serialize(),
       others: otherPlayers.map((p) => p.serialize()),
       food: food.map((f) => f.serialize()),
+      scores: this.calculateLeaderBoard(),
     };
   }
 }

@@ -9,8 +9,8 @@ class GameObject {
 
   constructor(x, y, radius) {
     this.id = GameObject.objectsCount;
-    this._x = x;
-    this._y = y;
+    this._x = clamp(x, radius, MAP_SIZE-radius);
+    this._y = clamp(y, radius, MAP_SIZE-radius);
     this.deleted = false;
     this.radius = radius;
     GameObject.objectsGrid[this.cellX][this.cellY].add(this);

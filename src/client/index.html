@@ -95,6 +95,23 @@
             box-shadow: 0 5px #666;
             transform: translateY(4px);
         }
+
+        #playagain-screen {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        #game-canvas {
+            background: #000;
+            opacity: 0.0;
+            transition: opacity 1s;
+        }
+
     </style>
 </head>
 
@@ -114,6 +131,9 @@
                 <img id="sourceCode" src="assets\sourceCode.png">
             </a>
         </div>
+    </div>
+    <div id="playagain-screen">
+        <button id="playagain-button" class="button">PLAY AGAIN</button>
     </div>
 </body>
 

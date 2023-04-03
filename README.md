@@ -23,18 +23,15 @@ $ npm start
 
 
 ### TODO
-- interpolating
 - scoring
 - leaderboard
-- improving players state update
-- play again screen instead of disconnecting
 - snake's eyes
 - minimap
 - field of vision
 - make each part of player's body drawn independent
 - add radius as GameObject property
 - spawn players on unoccupied cell
-- fix missing sourceCode and favicon images
+- check amount of composted body
 
 
 ### Found bugs

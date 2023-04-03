@@ -1,17 +1,21 @@
 import {initState} from './state';
 import {connect, play} from './networking';
-import {startRendering, stopRendering} from './render';
+import {startRendering} from './render';
 import {startCapturingInput, stopCapturingInput} from './input';
 
 const playButton = document.getElementById('play-button');
 const usernameInput = document.getElementById('username-input');
 const startScreen = document.getElementById('start-screen');
+const playagainScreen = document.getElementById('playagain-screen');
+const playagainButton = document.getElementById('playagain-button');
+const gameCanvas = document.getElementById('game-canvas');
 
 Promise.all([
   connect(onGameOver),
 ]).then(() => {
   playButton.onclick = () => {
     play(usernameInput.value);
+    gameCanvas.style.opacity = 1.0;
     startScreen.style.display = 'none';
     initState();
     startRendering();
@@ -21,6 +25,16 @@ Promise.all([
 
 function onGameOver() {
   stopCapturingInput();
-  stopRendering();
-  startScreen.style.display = 'block';
+  playagainScreen.style.visibility = 'visible';
+  playagainScreen.style.opacity = 0.8;
+  gameCanvas.style.opacity = 0.5;
 }
+
+playagainButton.onclick = () => {
+  play(usernameInput.value);
+  playagainScreen.style.visibility = 'hidden';
+  playagainScreen.style.opacity = 0.0;
+  gameCanvas.style.opacity = 1.0;
+  initState();
+  startCapturingInput();
+};

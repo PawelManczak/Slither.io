@@ -72,6 +72,11 @@ function renderPlayer(self, player) {
   const canvasY = canvas.height / 2 + y - self.y;
   const diameter = radius*2;
 
+  // do not draw dead players
+  if (player.dead == true) {
+    return;
+  }
+
   // save state to restore changes (e.g. context translation) later
   context.save();
 

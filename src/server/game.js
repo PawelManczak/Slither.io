@@ -15,7 +15,14 @@ class Game {
     this.sockets[socket.id] = socket;
     const x = Constants.MAP_SIZE * Math.random();
     const y = Constants.MAP_SIZE * Math.random();
-    this.players[socket.id] = new Player(socket.id, username, x, y);
+    if (this.players[socket.id]) {
+      // player is rejoining, use previous color
+      const color = this.players[socket.id].color;
+      this.players[socket.id] = new Player(socket.id, username, x, y);
+      this.players[socket.id].color = color;
+    } else {
+      this.players[socket.id] = new Player(socket.id, username, x, y);
+    }
   }
 
   removePlayer(socketID) {
@@ -26,6 +33,12 @@ class Game {
       delete this.sockets[socketID];
       delete this.players[socketID];
     }
+  }
+
+  killPlayer(socketID) {
+    const player = this.players[socketID];
+    this.foodManager.compostBody(player);
+    player.delete();
   }
 
   handleInput(socket, dir) {
@@ -63,6 +76,7 @@ class Game {
     const collisions = {}; // playerSocketID: GameObject
     for (const socketID of Object.keys(this.players)) {
       const player = this.players[socketID];
+      if (player.deleted == true) continue;
       const objectsInRange = player.getCloseObjectsTo(collisionCheckRange);
       const filteredObjects = objectsInRange.filter((object) => object.socketID != socketID);
       for (const object of filteredObjects) {
@@ -79,8 +93,8 @@ class Game {
         this.players[socketID].eat();
         this.foodManager.removeFood(object);
       } else if (object instanceof BodyPart) {
+        this.killPlayer(socketID);
         this.sockets[socketID].emit(Constants.MSG_TYPES.GAME_OVER);
-        this.removePlayer(socketID);
       } else {
         console.log(`Unimplemented collision of ${player.username} with ${object.constructor.name}`);
       }
@@ -90,7 +104,8 @@ class Game {
   createUpdate(playerSocketID) {
     const range = 800;
     const objectsInRange = this.players[playerSocketID].getCloseObjectsTo(range);
-    const otherPlayers = objectsInRange.filter((o) => o instanceof Player && o.socketID != playerSocketID);
+    const otherPlayers = objectsInRange.filter((o) => o instanceof Player &&
+                                                      o.socketID != playerSocketID);
     const food = objectsInRange.filter((o) => o instanceof Food);
 
     return {

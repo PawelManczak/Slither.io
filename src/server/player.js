@@ -32,6 +32,7 @@ class Player extends GameObject {
     this.bodyparts.forEach((element) => {
       element.delete();
     });
+    this.bodyparts = [];
     super.delete();
   }
 
@@ -86,6 +87,7 @@ class Player extends GameObject {
       radius: this.radius,
       username: this.username,
       bodyparts: reportedBodyParts.map((o) => o.serialize()),
+      dead: this.deleted,
     };
   }
 

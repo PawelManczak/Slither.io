@@ -5,7 +5,7 @@ const constants = {
   PLAYER_ROTATION: 2 * Math.PI, // max. angle in radians change per second
   PLAYER_STARTING_LENGTH: 50,
   PLAYER_LENGTH_GROWTH: 1.0,    // growth per food
-  PLAYER_RADIUS_GROWTH: 0.3,    // growth per food
+  PLAYER_RADIUS_GROWTH: 0.1,    // growth per food
 
   FOOD_AMOUNT_PER_SQUARE: 1,    // food per AxA square
   FOOD_SQUARE: 200,

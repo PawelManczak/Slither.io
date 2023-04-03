@@ -31,7 +31,6 @@ $ npm start
 - make each part of player's body drawn independent
 - add radius as GameObject property
 - spawn players on unoccupied cell
-- check amount of composted body
 
 
 ### Found bugs

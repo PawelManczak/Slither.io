@@ -106,8 +106,10 @@ class Game {
         this.players[socketID].eat();
         this.foodManager.removeFood(object);
       } else if (object instanceof BodyPart) {
-        this.killPlayer(socketID);
-        this.sockets[socketID].emit(Constants.MSG_TYPES.GAME_OVER);
+        if (player.radius<object.radius) {
+          this.killPlayer(socketID);
+          this.sockets[socketID].emit(Constants.MSG_TYPES.GAME_OVER);
+        }
       } else {
         console.log(`Unimplemented collision of ${player.username} with ${object.constructor.name}`);
       }

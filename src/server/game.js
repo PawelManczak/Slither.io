@@ -75,7 +75,9 @@ class Game {
     const scores = [];
     for (const socketID of Object.keys(this.players)) {
       const player = this.players[socketID];
-      scores.push({username: player.username, score: player.length});
+      if (player.deleted ==false) {
+        scores.push({username: player.username, score: player.length});
+      }
     }
     scores.sort((a, b) => b.score - a.score);
     const top10 = scores.slice(0, 10).map((player)=>({username: player.username, score: player.score}));

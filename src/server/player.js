@@ -1,6 +1,6 @@
 const tinycolor = require('tinycolor2');
 const GameObject = require('./gameobject');
-const {PLAYER_SPEED, PLAYER_RADIUS, PLAYER_STARTING_LENGTH, PLAYER_RADIUS_GROWTH,
+const {PLAYER_SPEED, PLAYER_SPEED_DECREASE, PLAYER_RADIUS, PLAYER_STARTING_LENGTH, PLAYER_RADIUS_GROWTH,
   PLAYER_LENGTH_GROWTH, PLAYER_ROTATION} = require('../shared/constants');
 const {getEveryNth, getAngleBetweenMinusPiAndPi} = require('../shared/helpers.js');
 
@@ -26,6 +26,7 @@ class Player extends GameObject {
     this.nthBodypartReported = 5;
     this.bodyparts = Array(this.length).fill(new BodyPart(x, y, this.radius, socketID));
     this.headingAngle = 0.0;
+    this.speed = PLAYER_SPEED;
   }
 
   delete() {
@@ -51,8 +52,8 @@ class Player extends GameObject {
 
   update(delta) {
     if (this.deleted) return;
-    this.x += PLAYER_SPEED * Math.cos(this.dir) * delta;
-    this.y += PLAYER_SPEED * Math.sin(this.dir) * delta;
+    this.x += this.speed * Math.cos(this.dir) * delta;
+    this.y += this.speed * Math.sin(this.dir) * delta;
 
     this.updateDirection(delta);
     this.updateBodyparts();
@@ -94,6 +95,10 @@ class Player extends GameObject {
   eat() {
     this.length += PLAYER_LENGTH_GROWTH;
     this.radius += PLAYER_RADIUS_GROWTH;
+    if (this.speed>100) {
+      this.speed -= PLAYER_SPEED_DECREASE;
+      console.log(`Speed (${this.speed})`);
+    }
   }
 }
 

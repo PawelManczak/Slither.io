@@ -1,7 +1,8 @@
 const constants = {
   PLAYER_DIAMETER: 50,          // px size of player
   PLAYER_RADIUS: 15,
-  PLAYER_SPEED: 200,            // px position change per second
+  PLAYER_SPEED: 250,               // px position change per second
+  PLAYER_SPEED_DECREASE: 1,
   PLAYER_ROTATION: 2 * Math.PI, // max. angle in radians change per second
   PLAYER_STARTING_LENGTH: 50,
   PLAYER_LENGTH_GROWTH: 1.0,    // growth per food

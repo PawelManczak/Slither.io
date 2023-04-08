@@ -97,7 +97,6 @@ class Player extends GameObject {
     this.radius += PLAYER_RADIUS_GROWTH;
     if (this.speed>100) {
       this.speed -= PLAYER_SPEED_DECREASE;
-      console.log(`Speed (${this.speed})`);
     }
   }
 }

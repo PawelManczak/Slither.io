@@ -87,6 +87,13 @@ function renderLeaderBoard(scores, self) {
   startOfText += distanceBetweenLines;
   let number=1;
   for (const player of scores) {
+    console.log(`self ${self.username}`);
+    console.log(`player ${player.username}`);
+    if (player.username == self.username) {
+      context.fillStyle = 'rgba(34, 193, 214, 0.8)';
+    } else {
+      context.fillStyle = 'rgba(255, 255, 228, 0.66)';
+    }
     startOfText += distanceBetweenLines;
     context.fillText('#'+number, canvas.width-widthOfboard+1.5*offset, startOfText);
     context.fillText(player.username, canvas.width-widthOfboard*0.75, startOfText);

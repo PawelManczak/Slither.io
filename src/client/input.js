@@ -1,6 +1,6 @@
 import {updateDirection} from './networking';
 import {switchPerformanceDisplay} from './render';
-
+let headingAngle=0;
 function onMouseInput(e) {
   handleInput(e.clientX, e.clientY);
 }
@@ -14,15 +14,19 @@ function onKeyDown(e) {
   switch (e.key) {
     case 'ArrowRight':
       headingAngle = 0;
+      updateDirection(headingAngle);
       break;
     case 'ArrowUp':
       headingAngle = -Math.PI / 2;
+      updateDirection(headingAngle);
       break;
     case 'ArrowLeft':
       headingAngle = -Math.PI;
+      updateDirection(headingAngle);
       break;
     case 'ArrowDown':
       headingAngle = Math.PI / 2;
+      updateDirection(headingAngle);
       break;
     case 'P':
     case 'p':
@@ -32,7 +36,7 @@ function onKeyDown(e) {
 }
 
 function handleInput(x, y) {
-  const headingAngle = Math.atan2(y - window.innerHeight / 2, x - window.innerWidth / 2);
+  headingAngle = Math.atan2(y - window.innerHeight / 2, x - window.innerWidth / 2);
   updateDirection(headingAngle);
 }
 

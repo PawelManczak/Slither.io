@@ -32,3 +32,4 @@ export const play = (username) => {
 export const updateDirection = (dir) => {
   socket.emit(Constants.MSG_TYPES.INPUT, dir);
 };
+

@@ -15,7 +15,7 @@ const constants = {
   SCORE_PER_FOOD: 1,
   PERCENT_OF_BODY_COMPOSTED: 25,
 
-  MAP_SIZE: 1000,
+  MAP_SIZE: 10000,
   CELL_SIZE: 100,
 
   MSG_TYPES: {
